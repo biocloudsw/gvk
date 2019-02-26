@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.action.extension" value=","/>
+    <constant name="struts.objectFactory" value="spring"></constant>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <action name="fuzzySearch" class="searchAction" method="execFuzzySearchFunc">
+            <result name="trait" type="chain">fuzzyTraitSearch</result>
+            <result name="gene" type="chain">fuzzyGeneSearch</result>
+            <result name="success" >/pages/search/success_list.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="fuzzyTraitSearch" class="searchAction" method="execFuzzySearchTraitFunc">
+            <result name="success">/pages/search/trait_list_result.jsp</result>
+            <result name="error"></result>
+        </action>
+
+
+        <action name="fuzzyGwasSearch" class="searchAction" method="execFuzzySearchGWASFunc">
+            <result name="success">/pages/search/associationResult.jsp</result>
+            <result name="error"></result>
+        </action>
+        <action name="fuzzyGeneSearch" class="searchAction" method="execFunzzySearchMapGeneFunc">
+            <result name="success">/pages/search/gene_list_result.jsp</result>
+            <result name="error"></result>
+        </action>
+
+    </package>
+
+    <package name="browse" namespace="/browse" extends="struts-default">
+        <action name="getPublication" class="browseAction" method="execBrowsePublicationByTraitFunc">
+            <result name="success">/pages/search/publicationResult.jsp</result>
+            <result name="error"></result>
+        </action>
+        <action name="getStudy" class="browseAction" method="execBrowseStudyByTraitFunc">
+            <result name="success">/pages/search/studyResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+
+        <action name="getGenePublication" class="browseAction" method="execBrowsePublicationByMapGeneFunc">
+            <result name="success">/pages/search/publicationResult.jsp</result>
+            <result name="error"></result>
+        </action>
+        <action name="getGeneStudy" class="browseAction" method="execBrowseStudyByMapGeneFunc">
+            <result name="success">/pages/search/studyResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getGeneAssociation" class="browseAction" method="execGetGWASByMapGeneFunc">
+            <result name="success">/pages/search/associationResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getMapGene" class="browseAction" method="execGetMapGeneFunc">
+            <result name="success">/pages/search/gene_detail.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getTrait" class="browseAction" method="execGetTraitFunc">
+            <result name="success">/pages/search/trait_detail.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getAssociation" class="browseAction" method="execGetGWASByTraitIDFunc">
+            <result name="success">/pages/search/associationResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="plantontology" class="BrowseGOAction" method="execGetGoTermTreeAndGoDetailFunc">
+            <result name="success">/pages/browser/browser.jsp</result>
+            <result name="error"></result>
+        </action>
+
+
+
+    </package>
+
+    <package name="goajax" namespace="/goajax" extends="json-default">
+        <action name="goterm" class="BrowseGOAction" method="execGetGoTermJson">
+            <result name="success" type="json">
+                <param name="root">node</param>
+            </result>
+        </action>
+
+        <action name="gochildrenterm" class="BrowseGOAction" method="execGetChildTermJsonFunc">
+            <result name="success" type="json">
+                <param name="root">nodep</param>
+            </result>
+        </action>
+
+
+        <action name="gotermdetail" class="BrowseGOAction" method="execGetGoTermTreeAndGoDetailFunc">
+            <result name="success" type="json">
+
+            </result>
+        </action>
+
+        <action name="getterm" class="BrowseGOAction" method="execGetOntologyTermFunc">
+            <result name="success" type="json"></result>
+        </action>
+
+    </package>
+
+</struts>

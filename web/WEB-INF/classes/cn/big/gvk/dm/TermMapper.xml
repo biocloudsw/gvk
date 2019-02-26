@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.Term">
+	<resultMap id="TermInfoMap" type="cn.big.gvk.po.TermInformationBean">
+
+		<result property="termId" column="term_id"/>
+		<result property="traitId" column="trait_id" />
+		<result property="traitName" column="trait_name"/>
+		<result property="termName" column="name"/>
+		<result property="acc" column="acc"/>
+		<result property="termType" column="term_type"/>
+		<result property="termDefinition" column="term_definition"/>
+		<result property="termComment" column="term_comment"/>
+	</resultMap>
+
+
+	<resultMap  id="TermSynonymMap" type="cn.big.gvk.po.TermSynonymBean">
+		<result property="termId" column="term_id"/>
+		<result property="termSynonym" column="term_synonym"/>
+		<result property="accSynonym" column="acc_synonym"/>
+	</resultMap>
+	
+
+    <select id="selectTermInfo" parameterType="java.util.Map" resultMap="TermInfoMap">
+    	select d.trait_id,(select trait_name from trait where trait.trait_id=d.trait_id) as trait_name,
+    	a.term_id,a.acc,a.name, a.term_type,b.term_definition,b.term_comment
+    	from trait_map_plant d inner join term a on a.term_id=d.term_id
+    	inner join term_definition b on a.term_id=b.term_id
+    	where d.trait_id in
+    	 <foreach item="item" index="index" collection="termlist" open="(" separator="," close=")">
+			#{item}
+	    </foreach>
+    </select>
+
+	<select id="selectTermDefinition"  resultMap="TermInfoMap">
+		select distinct b.term_definition
+		from trait_map_plant d inner join term a on a.term_id=d.term_id
+		inner join term_definition b on a.term_id=b.term_id
+		where d.trait_id=#{traitId}
+	</select>
+
+	<select id="selectTermSynonym" resultMap="TermSynonymMap">
+			select term_id,term_synonym,acc_synonym from term_synonym where term_id=#{term_id}
+	</select>
+
+
+	<select id="selectTraitByTermId" resultMap="TermInfoMap">
+		select * from trait_map_plant where term_id=#{termid}
+	</select>
+
+
+</mapper>

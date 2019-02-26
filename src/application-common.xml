@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xmlns:aop="http://www.springframework.org/schema/aop"      
+      xmlns:tx="http://www.springframework.org/schema/tx"       
+      xmlns:jdbc="http://www.springframework.org/schema/jdbc"       
+      xmlns:context="http://www.springframework.org/schema/context"      
+      xsi:schemaLocation="       
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd       
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd       
+      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd       
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd       
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-autowire="byName">     
+
+   <context:annotation-config />
+     
+	<!-- database -->
+	
+	<!-- 192.168.118.52:3307 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+		<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+		<!--  
+			<value>jdbc:mysql://192.168.118.52:3307/bigd_gvm_20160614_1?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;failOverReadOnly=false</value>
+		-->
+		<value>jdbc:mysql://localhost:3306/big_gwas_atlas_20181221?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;failOverReadOnly=false</value>
+		
+		</property>
+		<property name="username">
+        	<value>gvk</value>
+        </property>
+        <property name="password">
+        	<value>gvk</value>
+        </property>
+	</bean>
+
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="baseDao" abstract="true" class="cn.big.gvk.dao.IBaseDao" scope="singleton" />
+	<bean id="baseDaoImpl" class="cn.big.gvk.dao.impl.BaseDaoImpl">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+
+	<!-- Services -->
+	<bean id="ibaseService" abstract="true" class="cn.big.gvk.service.IBaseService" scope="prototype" />
+	<bean id="baseService" class="cn.big.gvk.service.impl.BaseServiceImpl">
+		<property name="baseDao" ref="baseDaoImpl" />
+	</bean>
+
+	<!-- Services -->
+
+	<!-- Actions -->
+	<bean id="searchAction" class="cn.big.gvk.action.SearchAction" scope="prototype"></bean>
+	<bean id="browseAction" class="cn.big.gvk.action.BrowseAction" scope="prototype"></bean>
+	<bean id="BrowseGOAction" class="cn.big.gvk.action.OntologyAction" scope="prototype">
+
+	</bean>
+
+</beans>

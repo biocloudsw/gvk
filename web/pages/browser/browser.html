@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../../css/jstree/style.min.css" rel="stylesheet" />
+  <link href="../../css/common.css" rel="stylesheet" />
+  
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../js/jstree.min.js"></script>
+  <script src="../../js/headerfooter.js"></script>
+  <script src="../../js/common.js"></script>
+
+  <title>GWAS Atlas</title>
+  
+</head>
+  
+<body>
+<div class="container-fluid">
+	
+    <!-- Head -->
+    <div class="row" style="margin-top: 1px; padding: 0px; background: #BDD7EE; min-height: 50px;">
+      <div class="col-md-12">
+      	
+   		<!-- Navigation -->
+    	<nav class="navbar navbar-default" role="navigation">
+		  <div style="margin-left: auto; margin-right: auto;">
+	      <!-- Brand -->
+	      <div class="navbar-header">
+	      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+	    	</button>
+      		<!-- LOGO -->
+	        <a class="navbar-brand">
+	        	<span style="font-size: 26px; font-weight: bold;">
+       				<span style="color: #303392;">G</span><span style="color: #06A755;">W</span><span style="color: #BE1E2D;">A</span><span style="color: #FBBC05;">S</span>
+       			</span>
+       			<span style="font-size: 24px; color: #555555;">Atlas</span>
+       		</a>
+       		
+       		<span class="dropdown">
+                <a id="logo-dropdownMenu" type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="margin-top: 15px; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-collapse-down" style="color: white;"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="logo-dropdownMenu" style="margin-top: 15px">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Animals</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Plants</a>
+                    </li>
+                </ul>
+            </span>
+	      </div>
+	
+	      <!-- Nav tabs -->
+	      <div>
+	        <ul id="navbar-collapse" class="nav navbar-nav">
+	          <li id="nav-tab1">
+	          	<a href="../../index.html">
+	          		<span class="glyphicon glyphicon-home"></span>
+	          		Home
+	          	</a>
+	          </li>
+	          <li id="nav-tab2">
+	          	<a href="../../pages/browser/browser.html">
+	          		<span class="glyphicon glyphicon-list-alt"></span>
+	          		Browser
+	          	</a>
+	          </li>
+	          <li id="nav-tab3">
+	         	 <a>
+	         		 <span class="glyphicon glyphicon-save"></span>
+	          		Download
+	         	 </a>
+	          </li>
+	          <li id="nav-tab4">
+	          	<a href="../../pages/statistics/species.html">
+	          		<span class="glyphicon glyphicon-signal"></span>
+	          		Statistics
+	          	</a>
+	          </li>
+	          <li id="nav-tab5">
+	          	<a>
+	          		<span class="glyphicon glyphicon-folder-open"></span>
+	          		Documentation
+	          	</a>
+	          </li>
+	          <li id="nav-tab6">
+	          	<a>
+	          		<span class="glyphicon glyphicon-envelope"></span>
+	          		Feedback
+	          	</a>
+	          </li>
+	        </ul>
+	      </div>
+	      </div>
+	    </nav>
+    
+      </div>
+    </div>
+    
+	<div id="main-info" class="row">
+		<div class="col-md-12">
+			<!-- You are now at... -->
+			<ol class="breadcrumb">
+				<li><a href="../../index.html">GWAS Atlas</a></li>
+				<li class="active">Browser</li>
+			</ol>
+		</div>
+	</div>
+  
+<!-- Content -->
+	<div class="row">
+		<div id="browser-tree" class="col-md-4 col-lg-3" style="padding-left: 1%;padding-top: 15px; padding-right: 0px;">
+		    <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#plant-trait-ontology" role="tab" data-toggle="tab">
+                        Plant Trait Ontology
+                    </a>
+                </li>
+                <li>
+                    <a href="#crop-ontology" role="tab" data-toggle="tab">
+                        Crop Ontology
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="plant-trait-ontology" class="tab-pane active">
+                    <form action="#" method="post">
+                        <div class="input-group">
+                            <input type="text" name="" class="form-control">
+                            <span class="input-group-btn">
+                                <a id="" class="btn btn-default" type="submit" value="Search" href="#">
+                                    Search
+                                </a>
+                            </span>
+                        </div>
+                        <div class="form-group" style="padding-top: 10px; text-align: right;">
+                           <span>
+                               0/0&nbsp;&nbsp;
+                           </span>
+                            <span>
+                                <a id="" class="btn btn-info" type="submit" value="Search" href="#">
+                                    Prev
+                                </a>&nbsp;&nbsp;
+                                <a id="" class="btn btn-info" type="submit" value="Search" href="#">
+                                    Next
+                                </a>
+                            </span>
+                        </div>
+                    </form>
+                    
+                    <div id="jstree-ontology" style="overflow:auto;">
+                        <ul>
+                            <li class="jstree-open">plant trait
+                                <ul>
+                                    <li>biochemical trait
+                                        <ul>
+                                            <li>nnn</li>
+                                        </ul>
+                                    </li>
+                                    <li>biological process trait
+                                        <ul>
+                                            <li>nnn</li>
+                                        </ul>
+                                    </li>
+                                    <li>other miscellaneous trait</li>
+                                    <li>plant growth and development trait
+                                        <ul>
+                                            <li>nnn</li>
+                                        </ul>
+                                    </li>
+                                    <li class="jstree-open">plant morphology trait
+                                        <ul>
+                                            <li class="jstree-open">plant structure morphology trait
+                                                <ul>
+                                                    <li>cardinal part of a multi-tissue plant structure morphology trait
+                                                        <ul>
+                                                            <li>nnn</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>collective plant structure morphology trait
+                                                        <ul>
+                                                            <li>nnn</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>in vitro plant structure morphology trait</li>
+                                                    <li class="jstree-open">multi-tissue plant structure morphology trait
+                                                        <ul>
+                                                            <li class="jstree-open">fruit morphology trait
+                                                                <ul>
+                                                                    <li>achene fruit morphology trait</li>
+                                                                    <li>berry fruit morphology trait</li>
+                                                                    <li>capsule fruit morphology trait</li>
+                                                                    <li>caryopsis fruit morphology trait</li>
+                                                                    <li>drupe fruit morphology trait</li>
+                                                                    <li>follicle fruit morphology trait</li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                    
+                </div>
+                <div id="crop-ontology" class="tab-pane">
+                    <form action="#" method="post">
+                        <div class="input-group">
+                            <input type="text" name="" class="form-control">
+                            <span class="input-group-btn">
+                                <a id="" class="btn btn-default" type="submit" value="Search" href="#">
+                                    Search
+                                </a>
+                            </span>
+                        </div>
+                        <div class="form-group" style="padding-top: 10px; text-align: right;">
+                           <span>
+                               0/0&nbsp;&nbsp;
+                           </span>
+                            <span>
+                                <a id="" class="btn btn-info" type="submit" value="Search" href="#">
+                                    Prev
+                                </a>&nbsp;&nbsp;
+                                <a id="" class="btn btn-info" type="submit" value="Search" href="#">
+                                    Next
+                                </a>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8 col-lg-9" style="padding-top: 15px">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default" style="margin-bottom: 15px;">
+                        <div class="panel-heading" style="font-size: 16px; font-weight: bold;">
+                            Trait: 100-grain weight
+                        </div>
+                        <div class="panel-body" style="padding-top: 20px;padding-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary">Trait information(50)</button>
+									<button class="btn btn-default">Associations(100)</button>
+									<button class="btn btn-default">Genes(100)</button>
+									<button class="btn btn-default">Studys(100)</button>
+									<button class="btn btn-default">Publications(100)</button>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 10px; margin-bottom: 10px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-sm btn-default">Maize(50)</button>
+									<button class="btn btn-sm btn-default">Rice(30)</button>
+									<button class="btn btn-sm btn-default">Sorghum(10)</button>
+									<button class="btn btn-sm btn-default">NNN(10)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="font-size: 16px; font-weight: bold;">
+                            Term Information
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 20px;">
+                            
+                            <table class="table table-striped table-hover" id="ontology-term" style="font-size: 14px;">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>TO: 0000269</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>100-grain weight</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Synonyms</th>
+                                        <td>
+                                            hundred grain weight (exact)<br>
+                                            hundred seed weight (related)<br>
+                                            HSDWT (related)<br>
+                                            HGRWT (exact)<br>
+                                            100-grain weight (exact)<br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Definitions</th>
+                                        <td>A grain weight (TO: 0000919) which is the weight of a sample of 100 grains (caryopsis fruit; PO: 0030104), (PO: 0006000). Hundred grain weights are measured in grams on a precision balance on 100 well-develop the caryopsis hull; PO: 0006000), dried to 13% moisture content.</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comment</th>
+                                        <td>Hundred grain weights are measured in grams on a precision balance on 100 well-developed whole grains hull; PO: 0006000), dried to 13% moisture content.</td>
+                                    </tr>
+                                    <tr>
+                                        <th>SubClassOf</th>
+                                        <td>grain weight</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" language="javascript">
+  var odiv = document.getElementById('nav-tab2');
+  addClass(odiv, 'active');
+</script>
+
+<script>
+  $(function() {
+    $("#jstree-ontology").jstree({
+      "core": {
+        "animation": 0,
+        "themes": {
+          "theme": "classic",
+          "dots": true,
+          "icons": false,
+        },
+      }
+    });
+
+
+    /* open or close node */
+    $("#jstree-ontology").bind("select_node.jstree", function(e, data) {
+      if (data.node.id != 1) {
+        data.instance.toggle_node(data.node);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

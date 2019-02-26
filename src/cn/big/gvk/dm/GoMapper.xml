@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.big.gvk.go">
+	<resultMap id="GoTermMap" type="cn.big.gvk.po.tree.GoTermBean">
+		<id property="gotermid"  column="term_id" />
+        <result property="goterm"  column="name" />    
+		<result property="gotermtype"  column="term_type" />
+		<result property="goacc"  column="acc" />
+		<result property="goisobsolete"  column="is_obsolete" />
+		<result property="goisroot"  column="is_root" />
+		<result property="goisrelation"  column="is_relation" />
+		<result property="gorelation" column="term_relation" />
+		<result property="hasChildren" column="has_children" />
+		<result property="geneCount" column="gvk_trait_count" />
+	</resultMap>
+	<resultMap id="GoTermDefinitionMap" type="cn.big.gvk.po.tree.GoTermDefinition">
+		<id property="gotermid"  column="term_id" />       
+        <result property="gotermdefinition"  column="term_definition" />
+        <result property="gotermcomment"  column="term_comment" />
+	
+	</resultMap>
+	<resultMap id="GoTermSynonymMap" type="cn.big.gvk.po.tree.GoTermSynonym">
+        <result property="gotermid"  column="term_id" />    
+	 	<result property="gotermsynonym"  column="term_synonym" />
+	 	<result property="goaccsynonym"  column="acc_synonym" />
+	</resultMap>
+	
+		
+	<resultMap id="GoTermtoTermMap" type="cn.big.gvk.po.tree.GoTermtoTermBean">
+		<id property="ttid"  column="tt_id" />
+        <result property="relationshiptypeid"  column="term_relation_id" />
+		<result property="term1id"  column="term1_id" /> 
+		<result property="term2id"  column="term2_id" /> 
+		<result property="complete"  column="complete" /> 
+	</resultMap>
+
+	<select id="selectGoTermList" resultMap="GoTermMap">
+		select term_id,acc,name,has_children,gvk_trait_count,term_type from term  where term_id in
+		(select b.term1_id from term a, term2term b where a.term_id=b.term2_id and a.acc=#{termacc} and a.is_obsolete=0)
+		order by name
+	</select>
+	
+	
+	<select id="selectParentGoTermList" resultMap="GoTermMap">
+		select term_id,acc,name,has_children,gvk_trait_count,term_type from term  where term_id in
+		(select b.term2_id from term a, term2term b where a.term_id=b.term1_id and a.acc=#{termacc} and a.is_obsolete=0)
+		order by name
+	</select>
+	
+
+	<select id="selectGoTermByAcc" resultMap="GoTermMap">
+		select name,acc,term_id,has_children,gvk_trait_count,term_type from term where acc=#{termacc} and is_obsolete=0
+	</select>
+	
+	
+	<select id="selectGoTermByKeyword" parameterType="java.util.Map" resultMap="GoTermMap">
+		select name,acc from term where 1=1
+		<if test="goacc != null ">
+		  and acc=#{goacc}
+		</if>
+		
+		<if test="goterm != null ">
+		  and name like CONCAT('%',#{goterm},'%')
+		</if>
+		and is_obsolete=0
+		order by name
+	
+	</select>
+	
+	<select id="selectGoTermDefinition" resultMap="GoTermDefinitionMap">
+		select b.term_definition,b.term_comment from term a,term_definition b where a.term_id=b.term_id and a.acc=#{termacc} and a.is_obsolete=0
+	</select>
+	
+	
+	<select id="selectGoTermSynonym" resultMap="GoTermSynonymMap">
+		select b.term_synonym,b.acc_synonym from term a,term_synonym b where a.term_id=b.term_id and a.acc=#{termacc} and a.is_obsolete=0
+	</select>
+	
+	<select id="selectGOParentTerm" resultMap="GoTermMap">
+		select b.name,b.acc,(select term_relation from term_relation c where c.term_relation_id=a.term_relation_id) as term_relation from view_go_parent_term a inner join term b on b.term_id=a.term2_id where a.acc=#{termacc} order by a.name
+	</select>
+
+
+	<select id="selectTerm" parameterType="java.util.Map" resultMap="GoTermMap">
+		select * from term where name like CONCAT('%',#{goterm},'%') and is_obsolete=0
+		<if test="termtype == 1">
+			and term_type="plant_trait_ontology"
+		</if>
+
+	</select>
+
+</mapper>

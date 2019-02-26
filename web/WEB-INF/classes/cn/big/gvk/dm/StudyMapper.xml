@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.study">
+	<resultMap  id="StudyMap"  type="cn.big.gvk.po.StudyBean">
+		<result property="studyId" column="study_id"/>
+		<result property="studyAcc" column="study_acc"/>
+		<result property="environment" column="environment"/>
+		<result property="sampleSpot" column="sample_spot"/>
+		<result property="sampleYear" column="sample_year"/>
+		<result property="sampleCondition" column="sample_condition"/>
+		<result property="species" column="species"/>
+		<result property="population" column="population"/>
+		<result property="sampleSize" column="sample_size"/>
+		<result property="tissue" column="tissue"/>
+		<result property="modelName" column="model_name" />
+		<result property="gaId" column="ga_id" />
+		<result property="pmid" column="pmid" />
+		<result property="studyCount" column="study_count" />
+	</resultMap>
+
+	<resultMap id="GenotypeTechMap" type="cn.big.gvk.po.GenotypeTechBean">
+		<result property="techId" column="tech_id" />
+		<result property="techName" column="tech_name" />
+	</resultMap>
+
+	<select id="selectStudyByTraitId" resultMap="StudyMap">
+		select distinct a.study_id,a.study_acc,a.environment,a.sample_spot,a.sample_year,a.sample_condition,
+		a.species,a.population,a.sample_size,a.tissue,
+		(select abbr_name from associate_model where associate_model.model_id=b.model_id)  as model_name,
+		 (select pmid from publication where publication.paper_id=b.paper_id)  as pmid
+		 from study a
+		inner join gwas_association b on a.study_id=b.study_id
+		where trait_id=#{traitId}
+	</select>
+
+	<select id="selectStudyByMapGeneId" parameterType="java.util.Map" resultMap="StudyMap">
+		select
+		<choose>
+		<when test="count != null">
+			count(distinct a.study_id) as study_count
+		</when>
+		<otherwise>
+			distinct a.study_id,a.study_acc,a.environment,a.sample_spot,a.sample_year,a.sample_condition,
+			a.species,a.population,a.sample_size,a.tissue,
+			(select abbr_name from associate_model where associate_model.model_id=b.model_id)  as model_name,
+			(select pmid from publication where publication.paper_id=b.paper_id)  as pmid
+		</otherwise>
+		</choose>
+		 from study a
+		inner join gwas_association b on a.study_id=b.study_id
+ 		inner join genotype_annotate_gene d on d.genotype_id=b.genotype_id
+		where d.g_id=#{gId}
+	</select>
+
+
+	<select id="selectGenotypeTchByGwasid" resultMap="GenotypeTechMap">
+		select distinct a.tech_id,a.tech_name from genotype_tech a, gwas_genotype_tech b, gwas_association d
+		where a.tech_id=b.tech_id and b.ga_id=d.ga_id and d.trait_id=#{traitId}
+	</select>
+
+
+</mapper>

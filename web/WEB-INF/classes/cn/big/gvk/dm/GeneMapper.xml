@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.MapGene">
+
+	<resultMap id="MapGeneMap" type="cn.big.gvk.po.MapGeneBean">
+		<result property="gid" column="g_id"/>
+		<result property="mapGeneId" column="map_gene_id" />
+		<result property="mapGeneChrom" column="map_gene_chrom" />
+		<result property="mapGeneStart" column="map_gene_start" />
+		<result property="mapGeneEnd" column="map_gene_end" />
+		<result property="mapGeneSymbol" column="map_gene_symbol" />
+		<result property="description" column="description" />
+		<result property="geneCount" column="gene_count" />
+	</resultMap>
+
+    <resultMap id="ReportGeneMap" type="cn.big.gvk.po.ReportGeneBean">
+        <result property="reportGeneId" column="report_gene_id" />
+        <result property="entrezGeneSymbol" column="entrez_gene_symbol" />
+    </resultMap>
+
+	<select id="selectMapGeneCount" resultMap="MapGeneMap">
+		select
+		<choose>
+			<when test="count != null">
+				count(distinct d.map_gene_id) as gene_count
+			</when>
+			<otherwise>
+				distinct d.g_id,d.map_gene_id, d.map_gene_chrom,d.map_gene_start,d.map_gene_end,d.map_gene_symbol,d.description
+			</otherwise>
+		</choose>
+		from gwas_association a inner join genotype_annotate_gene b on a.genotype_id=b.genotype_id inner join gene d
+		on d.g_id=b.g_id
+		where 1=1
+		<if test="searchParam != null ">
+			and d.map_gene_id like #{searchParam}  or d.map_gene_symbol like #{searchParam}
+		</if>
+		<if test="species != null ">
+			and a.org_id=#{species}
+		</if>
+
+	</select>
+
+
+	<select id="selectMapGenebyGeneid" resultMap="MapGeneMap">
+		select * from gene where g_id=#{gId}
+	</select>
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.publication">
+	<resultMap  id="PublicationMap"  type="cn.big.gvk.po.PublicationBean">
+		<id property="paperId" column="paper_id"/>
+		<result property="pmid" column="pmid"/>
+		<result property="journal" column="journal"/>
+		<result property="title" column="title"/>
+		<result property="author" column="author"/>
+		<result property="pubyear" column="pub_year"/>
+		<result property="species" column="common_name"/>
+		<result property="publicationCount" column="publication_count" />
+	</resultMap>
+
+	<select id="selectPubByTraitId" resultMap="PublicationMap">
+		select distinct a.paper_id, a.pmid,a.journal,a.title,a.author,a.pub_year,(select common_name from organism where organism.org_id=b.org_id)  as common_name
+		 from publication a inner join gwas_association b on a.paper_id=b.paper_id
+		where trait_id=#{traitId}
+	</select>
+
+	<select id="selectPubCountByTraitId"  parameterType="java.util.Map" resultMap="PublicationMap">
+		  select count(distinct a.paper_id) as publication_count
+		  from publication a inner join gwas_association b on a.paper_id=b.paper_id
+		  where trait_id=#{traitId}
+		  <if test="species != null ">
+		  and a.org_id=#{species}
+		  </if>
+
+	</select>
+
+	<select id="selectPubByGeneId" parameterType="java.util.Map" resultMap="PublicationMap">
+		select
+		<choose>
+		<when test="count != null">
+			count(distinct a.paper_id) as publication_count
+		</when>
+		<otherwise>
+			distinct a.paper_id, a.pmid,a.journal,a.title,a.author,a.pub_year,
+			(select common_name from organism where organism.org_id=b.org_id)  as common_name
+		</otherwise>
+		</choose>
+
+		 from publication a
+		 inner join gwas_association b on a.paper_id=b.paper_id
+		 inner join genotype_annotate_gene d on d.genotype_id=b.genotype_id
+		 where d.g_id=#{gId}
+	</select>
+
+
+
+</mapper>

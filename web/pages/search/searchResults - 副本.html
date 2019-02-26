@@ -1,0 +1,1130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../../bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
+  <link href="../../bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
+  <link href="../../css/common.css" rel="stylesheet" />
+  
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap-select.min.js"></script>
+  <script src="../../js/headerfooter.js"></script>
+  <script src="../../js/common.js"></script>
+
+  <title>Search Results</title>
+  
+</head>
+  
+<body>
+<div class="container-fluid">
+	
+    <!-- Head -->
+    <div class="row" style="margin-top: 1px; padding: 0px; background: #BDD7EE; min-height: 50px;">
+      <div class="col-md-12">
+      	
+   		<!-- Navigation -->
+    	<nav class="navbar navbar-default" role="navigation">
+		  <div style="margin-left: auto; margin-right: auto;">
+	      <!-- Brand -->
+	      <div class="navbar-header">
+	      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+	    	</button>
+      		<!-- LOGO -->
+	        <a class="navbar-brand">
+	        	<span style="font-size: 26px; font-weight: bold;">
+       				<span style="color: #303392;">G</span><span style="color: #06A755;">W</span><span style="color: #BE1E2D;">A</span><span style="color: #FBBC05;">S</span>
+       			</span>
+       			<span style="font-size: 24px; color: #555555;">Atlas</span>
+       		</a>
+       		
+       		<span class="dropdown">
+                <a id="logo-dropdownMenu" type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="margin-top: 15px; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-collapse-down" style="color: white;"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="logo-dropdownMenu" style="margin-top: 15px">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Animals</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Plants</a>
+                    </li>
+                </ul>
+            </span>
+	      </div>
+	
+	      <!-- Nav tabs -->
+	      <div>
+	        <ul id="navbar-collapse" class="nav navbar-nav">
+	          <li id="nav-tab1">
+	          	<a href="../../index.html">
+	          		<span class="glyphicon glyphicon-home"></span>
+	          		Home
+	          	</a>
+	          </li>
+	          <li id="nav-tab2">
+	          	<a href="../../pages/browser/browser.html">
+	          		<span class="glyphicon glyphicon-list-alt"></span>
+	          		Browser
+	          	</a>
+	          </li>
+	          <li id="nav-tab3">
+	         	 <a>
+	         		 <span class="glyphicon glyphicon-save"></span>
+	          		Download
+	         	 </a>
+	          </li>
+	          <li id="nav-tab4">
+	          	<a href="../../pages/statistics/species.html">
+	          		<span class="glyphicon glyphicon-signal"></span>
+	          		Statistics
+	          	</a>
+	          </li>
+	          <li id="nav-tab5">
+	          	<a>
+	          		<span class="glyphicon glyphicon-folder-open"></span>
+	          		Documentation
+	          	</a>
+	          </li>
+	          <li id="nav-tab6">
+	          	<a>
+	          		<span class="glyphicon glyphicon-envelope"></span>
+	          		Feedback
+	          	</a>
+	          </li>
+	        </ul>
+	      </div>
+	      </div>
+	    </nav>
+    
+      </div>
+    </div>
+    
+	<div id="main-info" class="row">
+		<div class="col-md-4">
+			<!-- You are now at... -->
+			<ol class="breadcrumb">
+				<li><a href="../../index.html">GWAS Atlas</a></li>
+				<li class="active">Search</li>
+			</ol>
+		</div>
+		<div class="col-md-8">
+			<!-- Quick Search -->
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="#" method="post" class="form-inline" style="margin-bottom: 0px; text-align: right;" role="form">
+                        <div class="form-group">
+                            <label>Search:&nbsp;</label>
+                            <select id="search-situ-type" name="searchSituType" class="form-control" onChange="chooseSearch()">
+                                <option value="all-species" selected="selected">All Species</option>
+	        	                <option>Human</option>
+	                        	<option>Mouse</option>
+	        	                <option>Dog</option>
+                            </select>
+                            <label>&nbsp;for&nbsp;</label>
+                            <div class="input-group">
+                                <input type="text" id="search-param" name="searchParam" class="form-control" style="width: 300px;">
+                                <span class="input-group-btn">
+                                    <a id="quick-search-icon" class="btn btn-default" type="submit" value="Search" href="searchResults.html">
+                                        <span class="glyphicon glyphicon-search" style="line-height: 20px;"></span>
+                                    </a>
+                                </span>
+                            </div>
+                            <span style="padding-left: 10px; color: grey;">
+                                e.g. <a href="#">Carboxy*</a>, <a href="#">chx28</a>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+		</div>
+	</div>
+  
+	<!-- Content -->
+	<div class="row">
+		<div id="filter" class="col-md-3" style="padding-left: 1%;padding-top: 15px; padding-right: 0px">
+            <div>
+                <ul class="nav nav-tabs" role="tablist" id="filter_tab">
+                    <li role="presentation" class="active">
+                    	<a href="#filters" aria-controls="filter" role="tab" data-toggle="tab" style="border-bottom: 0px">
+                    		Filter
+                    	</a>
+                    </li>
+                    <a onclick="hideFilter()" style="line-height:40px; text-align:center; float: right;">
+                    	Hide
+                    	<span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="filters" class="tab-pane active" style="border-top: 0px">
+					    <form>
+					        <div>
+					            <div>Species</div>
+					            <select class="selectpicker form-control" title="Select species" multiple data-live-search="true" data-selected-text-format="count > 3">
+									<option value="1">Human</option>
+									<option value="2">Dog</option>
+									<option value="3">Chicken</option>
+									<option value="4">Rice</option>
+									<option value="5">Sheep</option>                            
+								</select>
+					            <hr>
+					        </div>
+							
+					        <div>
+					            <div>Catalog Trait</div>
+					            <select class="selectpicker form-control" title="Select catalog trait" multiple data-live-search="true" data-selected-text-format="count > 3">
+									<option value="1">Example 1</option>
+									<option value="2">Example 2</option>
+									<option value="3">Example 3</option>
+									<option value="4">Example 4</option>
+									<option value="5">Example 5</option>                            
+								</select>
+					            <hr>
+					        </div>
+					        
+					        <div>
+					            <span>
+					                P value rank
+					                <span class="cancel" id="rank_cancel" hidden="">
+					                    <a><span class="glyphicon glyphicon-remove-circle"></span></a>
+					                </span>
+					            </span>
+					            <div class="input-group">
+					                <span class="input-group-addon">&lt;=</span>
+					                <input type="number" class="form-control">
+					                <span class="input-group-addon">E-5</span>
+					            </div>
+					            <hr>
+					        </div>
+					        
+					        <div class="form-group">
+					            <span>
+					                Study year
+					            </span>
+					            <div class="input-group">
+					                <span class="input-group-addon">from</span>
+					                <input type="number" class="form-control" min="1900" max="2030" id="year_start">
+					                <span class="input-group-addon">to</span>
+					                <input type="number" class="form-control" min="1900" max="2030" id="year_end">
+					            </div>
+					            <hr>
+					        </div>
+					        
+					        <div>
+					            <span>
+					                Association model
+					            </span>
+					            <select class="form-control" style="width: 100%">
+					                <option selected="selected" disabled="disabled" style="display: none"></option>
+					                <option value="1">Example 1</option>
+					                <option value="2">Example 2</option>
+					            </select>
+					            <hr>
+					        </div>
+					        
+					        <div>
+					            <span>
+					                Genotyping technology
+					            </span>
+					            <select class="form-control" style="width: 100%">
+					                <option selected="selected" disabled="disabled" style="display: none"></option>
+					                <option value="1">Example 1</option>
+					                <option value="2">Example 2</option>
+					            </select>
+					            <hr>
+					        </div>
+							
+							<button type="button" class="btn btn-primary" onclick="">Apply</button>
+					   		<button type="button" class="btn btn-info" onclick="">Clear all</button>
+					    </form>
+					</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="result" class="col-md-9" style="padding-top: 15px">
+
+            <div class="filter-condition-info">
+            	<span>
+            		<strong>Species:&nbsp;</strong>
+            		<a>Human;</a>
+            	</span>
+            </div>
+
+			<div>
+				<ul id="myTabs" class="nav nav-tabs" role="tablist">
+					<li class="active" role="presentation">
+						<a href="#traits" aria-controls="traits" role="tab" data-toggle="tab">
+							Traits
+							<span id="trait_count"> (308)</span>
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="#association" aria-controls="association" role="tab" data-toggle="tab">
+							Association<span id="association_count"> (185249)</span>
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="#genes" aria-controls="genes" role="tab" data-toggle="tab">
+							Genes<span id="gene_count"> (31066)</span>
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="#study" aria-controls="study" role="tab" data-toggle="tab">
+							Studies<span id="study_count"> (759)</span>
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="#publication" aria-controls="publication" role="tab" data-toggle="tab">
+							Publications<span id="publication_count"> (443)</span>
+						</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="traits" class="tab-pane active" role="tabpanel">
+					
+						<div class="bootstrap-table">
+							<div class="fixed-table-toolbar">
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="fixed-table-container" style="padding-bottom: 0px;">
+								<div>
+								<!-- <div class="fixed-table-body"> -->
+									<table id="trait_list" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Traits Name</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">ID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Synonyms</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Definition</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Comment</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Subclass of</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+                                                <td>the biovolume of plants</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>The biovolume of plants estimated through imaging at multiple time points</td>
+                                                <td>-</td>
+                                                <td>agronomical traits</td>
+											</tr>
+											<tr>
+                                                <td>phaseic acid content</td>
+                                                <td>-</td>
+                                                <td>Pa</td>
+                                                <td>The amount of phaseic acid present in the plant or the plant part.</td>
+                                                <td>-</td>
+                                                <td>biochemical trait</td>
+											</tr>
+											<tr>
+                                                <td>sucrose content</td>
+                                                <td>TO:0000328</td>
+                                                <td>SUCROSECN; saccharose content</td>
+                                                <td>The amount of sucrose present in the plant or the plant part.</td>
+                                                <td>-</td>
+                                                <td>biochemical trait</td>
+											</tr>
+											<tr>
+                                                <td>sucrose content</td>
+                                                <td>CO_322:0001118</td>
+                                                <td>RSucrose</td>
+                                                <td>Sucrose content in the root.</td>
+                                                <td>-</td>
+                                                <td>Physiological traits</td>
+											</tr>
+											<tr>
+                                                <td>glucose content</td>
+                                                <td>TO:0000300</td>
+                                                <td>D-glucose content; GLUCCN; dextrose content</td>
+                                                <td>Amount of glucose present in the plant or plant part.</td>
+                                                <td>-</td>
+                                                <td>biochemical trait</td>
+											</tr>
+											<tr>
+                                                <td>glucose content</td>
+                                                <td>CO_322:0001116</td>
+                                                <td>RGlucose</td>
+                                                <td>Glucose content in the root.</td>
+                                                <td>-</td>
+                                                <td>Physiological traits</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="fixed-table-pagination" style="display: block;">
+									<div class="pull-left pagination-detail">
+										<span class="pagination-info">Showing 1 to 10 of 308 rows</span>
+										<span class="page-list">
+											<span class="btn-group dropup">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span class="page-size">10</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="javascript:void(0)">5</a>
+													</li>
+													<li class="active"><a href="javascript:void(0)">10</a>
+													</li>
+													<li><a href="javascript:void(0)">20</a>
+													</li>
+													<li><a href="javascript:void(0)">100</a>
+													</li>
+													<li><a href="javascript:void(0)">500</a>
+													</li>
+												</ul>
+										</span> rows per page</span>
+									</div>
+									<div class="pull-right pagination">
+										<ul class="pagination">
+											<li class="page-pre"><a href="javascript:void(0)">‹</a>
+											</li>
+											<li class="page-number active"><a
+												href="javascript:void(0)">1</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">2</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">3</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">4</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">5</a>
+											</li>
+											<li class="page-last-separator disabled"><a href="javascript:void(0)">...</a>
+											</li>
+											<li class="page-last"><a href="javascript:void(0)">31</a>
+											</li>
+											<li class="page-next"><a href="javascript:void(0)">›</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<div id="association" class="tab-pane" role="tabpanel">
+					
+						<div class="bootstrap-table">
+							<div class="fixed-table-toolbar">
+								<div class="columns columns-left pull-left">
+									<button class="btn btn-default">Maize(50)</button>
+									<button class="btn btn-default">Rice(30)</button>
+									<button class="btn btn-default">Sorghum(10)</button>
+									<button class="btn btn-default">NNN(10)</button>
+								</div>
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="fixed-table-container" style="padding-bottom: 0px;">
+								<!-- <div class="fixed-table-body"> -->
+								<div>
+									<table id="trait_list" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Traits</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Species</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">SNPID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">ref_v</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">pos</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Pvalue</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Geneid</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">PMID</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>the biovolume of plants</td>
+												<td>Maize</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a> <span class="glyphicon glyphicon-share"></span></td>
+												<td>B73_v3</td>
+												<td>1_80632268</td>
+												<td>0.00000127</td>
+												<td>GRMZM2G703658 <span class="glyphicon glyphicon-share"></span></td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a> <span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="fixed-table-pagination" style="display: block;">
+									<div class="pull-left pagination-detail">
+										<span class="pagination-info">Showing 1 to 10 of 185249 rows</span>
+										<span class="page-list">
+											<span class="btn-group dropup">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span class="page-size">10</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="javascript:void(0)">5</a>
+													</li>
+													<li class="active"><a href="javascript:void(0)">10</a>
+													</li>
+													<li><a href="javascript:void(0)">20</a>
+													</li>
+													<li><a href="javascript:void(0)">100</a>
+													</li>
+													<li><a href="javascript:void(0)">500</a>
+													</li>
+												</ul>
+										</span> rows per page</span>
+									</div>
+									<div class="pull-right pagination">
+										<ul class="pagination">
+											<li class="page-pre"><a href="javascript:void(0)">‹</a>
+											</li>
+											<li class="page-number active"><a
+												href="javascript:void(0)">1</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">2</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">3</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">4</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">5</a>
+											</li>
+											<li class="page-last-separator disabled"><a href="javascript:void(0)">...</a>
+											</li>
+											<li class="page-last"><a href="javascript:void(0)">18525</a>
+											</li>
+											<li class="page-next"><a href="javascript:void(0)">›</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<div id="genes" class="tab-pane" role="tabpanel">
+					
+						<div class="bootstrap-table">
+							<div class="fixed-table-toolbar">
+								<div class="columns columns-left pull-left">
+									<button class="btn btn-default">Maize(50)</button>
+									<button class="btn btn-default">Rice(30)</button>
+									<button class="btn btn-default">Sorghum(10)</button>
+									<button class="btn btn-default">NNN(10)</button>
+								</div>
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="fixed-table-container" style="padding-bottom: 0px;">
+								<!-- <div class="fixed-table-body"> -->
+								<div>
+									<table id="trait_list" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Gene ID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Location</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Species</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Related Traits</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">SNPID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Effect</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">PMID</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>GRMZM2G703658<span class="glyphicon glyphicon-share"></span></td>
+												<td>1:80633499-80634197</td>
+												<td>Maize</td>
+												<td>the biovolume of plants</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a><span class="glyphicon glyphicon-share"></span></td>
+												<td>downstream_gene_variant|MODIFIER</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>GRMZM2G703658<span class="glyphicon glyphicon-share"></span></td>
+												<td>1:80633499-80634197</td>
+												<td>Maize</td>
+												<td>the biovolume of plants</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a><span class="glyphicon glyphicon-share"></span></td>
+												<td>downstream_gene_variant|MODIFIER</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>GRMZM2G703658<span class="glyphicon glyphicon-share"></span></td>
+												<td>1:80633499-80634197</td>
+												<td>Maize</td>
+												<td>the biovolume of plants</td>
+												<td><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=zma84166" target="_blank">zma84166</a><span class="glyphicon glyphicon-share"></span></td>
+												<td>downstream_gene_variant|MODIFIER</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="fixed-table-pagination" style="display: block;">
+									<div class="pull-left pagination-detail">
+										<span class="pagination-info">Showing 1 to 10 of 31066 rows</span>
+										<span class="page-list">
+											<span class="btn-group dropup">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span class="page-size">10</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="javascript:void(0)">5</a>
+													</li>
+													<li class="active"><a href="javascript:void(0)">10</a>
+													</li>
+													<li><a href="javascript:void(0)">20</a>
+													</li>
+													<li><a href="javascript:void(0)">100</a>
+													</li>
+													<li><a href="javascript:void(0)">500</a>
+													</li>
+												</ul>
+										</span> rows per page</span>
+									</div>
+									<div class="pull-right pagination">
+										<ul class="pagination">
+											<li class="page-pre"><a href="javascript:void(0)">‹</a>
+											</li>
+											<li class="page-number active"><a
+												href="javascript:void(0)">1</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">2</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">3</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">4</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">5</a>
+											</li>
+											<li class="page-last-separator disabled"><a href="javascript:void(0)">...</a>
+											</li>
+											<li class="page-last"><a href="javascript:void(0)">3107</a>
+											</li>
+											<li class="page-next"><a href="javascript:void(0)">›</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<div id="study" class="tab-pane" role="tabpanel">
+					
+						<div class="bootstrap-table">
+							<div class="fixed-table-toolbar">
+								<div class="columns columns-left pull-left">
+									<button class="btn btn-default">Maize(50)</button>
+									<button class="btn btn-default">Rice(30)</button>
+									<button class="btn btn-default">Sorghum(10)</button>
+									<button class="btn btn-default">NNN(10)</button>
+								</div>
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="fixed-table-container" style="padding-bottom: 0px;">
+								<div class="fixed-table-body">
+									<table id="trait_list" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Study ID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Species</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Sampling spot</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Sampling year</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Condition</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Population</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Sample Size</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Tissue</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Genotype Technology</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Association model</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Association#</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">PMID</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>ST58</td>
+												<td>Maize</td>
+												<td>Tlaltizapan, Mexico</td>
+												<td>2006</td>
+												<td>7 days after anthesis; severe drought stress</td>
+												<td>maize</td>
+												<td>318</td>
+												<td>Ear</td>
+												<td>Chip Sequencing</td>
+												<td>CMLM</td>
+												<td>3</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27121008" target="_blank">27121008</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>ST58</td>
+												<td>Maize</td>
+												<td>Tlaltizapan, Mexico</td>
+												<td>2006</td>
+												<td>7 days after anthesis; severe drought stress</td>
+												<td>maize</td>
+												<td>318</td>
+												<td>Ear</td>
+												<td>Chip Sequencing</td>
+												<td>CMLM</td>
+												<td>3</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27121008" target="_blank">27121008</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>ST58</td>
+												<td>Maize</td>
+												<td>Tlaltizapan, Mexico</td>
+												<td>2006</td>
+												<td>7 days after anthesis; severe drought stress</td>
+												<td>maize</td>
+												<td>318</td>
+												<td>Ear</td>
+												<td>Chip Sequencing</td>
+												<td>CMLM</td>
+												<td>3</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27121008" target="_blank">27121008</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+											<tr>
+												<td>ST58</td>
+												<td>Maize</td>
+												<td>Tlaltizapan, Mexico</td>
+												<td>2006</td>
+												<td>7 days after anthesis; severe drought stress</td>
+												<td>maize</td>
+												<td>318</td>
+												<td>Ear</td>
+												<td>Chip Sequencing</td>
+												<td>CMLM</td>
+												<td>3</td>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27121008" target="_blank">27121008</a><span class="glyphicon glyphicon-share"></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="fixed-table-pagination" style="display: block;">
+									<div class="pull-left pagination-detail">
+										<span class="pagination-info">Showing 1 to 10 of 759 rows</span>
+										<span class="page-list">
+											<span class="btn-group dropup">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span class="page-size">10</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="javascript:void(0)">5</a>
+													</li>
+													<li class="active"><a href="javascript:void(0)">10</a>
+													</li>
+													<li><a href="javascript:void(0)">20</a>
+													</li>
+													<li><a href="javascript:void(0)">100</a>
+													</li>
+													<li><a href="javascript:void(0)">500</a>
+													</li>
+												</ul>
+										</span> rows per page</span>
+									</div>
+									<div class="pull-right pagination">
+										<ul class="pagination">
+											<li class="page-pre"><a href="javascript:void(0)">‹</a>
+											</li>
+											<li class="page-number active"><a
+												href="javascript:void(0)">1</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">2</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">3</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">4</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">5</a>
+											</li>
+											<li class="page-last-separator disabled"><a href="javascript:void(0)">...</a>
+											</li>
+											<li class="page-last"><a href="javascript:void(0)">76</a>
+											</li>
+											<li class="page-next"><a href="javascript:void(0)">›</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+					<div id="publication" class="tab-pane" role="tabpanel">
+					
+						<div class="bootstrap-table">
+							<div class="fixed-table-toolbar">
+								<div class="columns columns-left pull-left">
+									<button class="btn btn-default">Maize(50)</button>
+									<button class="btn btn-default">Rice(30)</button>
+									<button class="btn btn-default">Sorghum(10)</button>
+									<button class="btn btn-default">NNN(10)</button>
+								</div>
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="fixed-table-container" style="padding-bottom: 0px;">
+								<!-- <div class="fixed-table-body"> -->
+								<div>
+									<table id="publication_list" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">PMID</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Journal</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Title</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Authors</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Year</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Species</div>
+												</th>
+												<th data-field="" tabindex="0">
+													<div class="th-inner">Association#</div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a><span class="glyphicon glyphicon-share"></span></td>
+												<td>Plant Journal</td>
+												<td>Genetic variation of growth dynamics in maize (Zea mays L.) revealed through automated non-invasive phenotyping</td>
+												<td>Moses M. Muraya et al.</td>
+												<td>42742</td>
+												<td>Maize</td>
+												<td>N</td>
+											</tr>
+											<tr>
+												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank">27714888</a><span class="glyphicon glyphicon-share"></span></td>
+												<td>Plant Journal</td>
+												<td>Genetic variation of growth dynamics in maize (Zea mays L.) revealed through automated non-invasive phenotyping</td>
+												<td>Moses M. Muraya et al.</td>
+												<td>42742</td>
+												<td>Maize</td>
+												<td>N</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="fixed-table-pagination" style="display: block;">
+									<div class="pull-left pagination-detail">
+										<span class="pagination-info">Showing 1 to 10 of 443 rows</span>
+										<span class="page-list">
+											<span class="btn-group dropup">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+													<span class="page-size">10</span> <span class="caret"></span>
+												</button>
+												<ul class="dropdown-menu" role="menu">
+													<li><a href="javascript:void(0)">5</a>
+													</li>
+													<li class="active"><a href="javascript:void(0)">10</a>
+													</li>
+													<li><a href="javascript:void(0)">20</a>
+													</li>
+													<li><a href="javascript:void(0)">100</a>
+													</li>
+													<li><a href="javascript:void(0)">500</a>
+													</li>
+												</ul>
+										</span> rows per page</span>
+									</div>
+									<div class="pull-right pagination">
+										<ul class="pagination">
+											<li class="page-pre"><a href="javascript:void(0)">‹</a>
+											</li>
+											<li class="page-number active"><a
+												href="javascript:void(0)">1</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">2</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">3</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">4</a>
+											</li>
+											<li class="page-number"><a href="javascript:void(0)">5</a>
+											</li>
+											<li class="page-last-separator disabled"><a href="javascript:void(0)">...</a>
+											</li>
+											<li class="page-last"><a href="javascript:void(0)">45</a>
+											</li>
+											<li class="page-next"><a href="javascript:void(0)">›</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					
+
+				</div>
+			</div>
+
+			</div>
+	</div>
+    
+</div>
+
+</body>
+</html>

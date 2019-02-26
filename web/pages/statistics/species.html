@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../../css/common.css" rel="stylesheet" />
+  
+  <script src="../../js/jquery-3.2.1.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../js/headerfooter.js"></script>
+  <script src="../../js/common.js"></script>
+
+  <title>GWAS Atlas</title>
+  
+</head>
+  
+<body>
+<div class="container-fluid">
+	
+    <!-- Head -->
+    <div class="row" style="margin-top: 1px; padding: 0px; background: #BDD7EE; min-height: 50px;">
+      <div class="col-md-12">
+      	
+   		<!-- Navigation -->
+    	<nav class="navbar navbar-default" role="navigation">
+		  <div style="margin-left: auto; margin-right: auto;">
+	      <!-- Brand -->
+	      <div class="navbar-header">
+	      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+	    	</button>
+      		<!-- LOGO -->
+	        <a class="navbar-brand">
+	        	<span style="font-size: 26px; font-weight: bold;">
+       				<span style="color: #303392;">G</span><span style="color: #06A755;">W</span><span style="color: #BE1E2D;">A</span><span style="color: #FBBC05;">S</span>
+       			</span>
+       			<span style="font-size: 24px; color: #555555;">Atlas</span>
+       		</a>
+       		
+       		<span class="dropdown">
+                <a id="logo-dropdownMenu" type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="margin-top: 15px; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-collapse-down" style="color: white;"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="logo-dropdownMenu" style="margin-top: 15px">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Animals</a>
+                    </li>
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1">Plants</a>
+                    </li>
+                </ul>
+            </span>
+	      </div>
+	
+	      <!-- Nav tabs -->
+	      <div>
+	        <ul id="navbar-collapse" class="nav navbar-nav">
+	          <li id="nav-tab1">
+	          	<a href="../../index.html">
+	          		<span class="glyphicon glyphicon-home"></span>
+	          		Home
+	          	</a>
+	          </li>
+	          <li id="nav-tab2">
+	          	<a href="../../pages/browser/browser.html">
+	          		<span class="glyphicon glyphicon-list-alt"></span>
+	          		Browser
+	          	</a>
+	          </li>
+	          <li id="nav-tab3">
+	         	 <a>
+	         		 <span class="glyphicon glyphicon-save"></span>
+	          		Download
+	         	 </a>
+	          </li>
+	          <li id="nav-tab4">
+	          	<a href="../../pages/statistics/species.html">
+	          		<span class="glyphicon glyphicon-signal"></span>
+	          		Statistics
+	          	</a>
+	          </li>
+	          <li id="nav-tab5">
+	          	<a>
+	          		<span class="glyphicon glyphicon-folder-open"></span>
+	          		Documentation
+	          	</a>
+	          </li>
+	          <li id="nav-tab6">
+	          	<a>
+	          		<span class="glyphicon glyphicon-envelope"></span>
+	          		Feedback
+	          	</a>
+	          </li>
+	        </ul>
+	      </div>
+	      </div>
+	    </nav>
+    
+      </div>
+    </div>
+    
+	<div id="main-info" class="row">
+		<div class="col-md-4">
+			<!-- You are now at... -->
+			<ol class="breadcrumb">
+				<li><a href="../../index.html">GWAS Atlas</a></li>
+				<li class="active">Statistics</li>
+			</ol>
+		</div>
+		<div class="col-md-8">
+			<!-- Quick Search -->
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="#" method="post" class="form-inline" style="margin-bottom: 0px; text-align: right;" role="form">
+                        <div class="form-group">
+                            <label>Search:&nbsp;</label>
+                            <select id="search-situ-type" name="searchSituType" class="form-control" onChange="chooseSearch()">
+                                <option value="all-species" selected="selected">All Species</option>
+	        	                <option>Human</option>
+	                        	<option>Mouse</option>
+	        	                <option>Dog</option>
+                            </select>
+                            <label>&nbsp;for&nbsp;</label>
+                            <div class="input-group">
+                                <input type="text" id="search-param" name="searchParam" class="form-control" style="width: 300px;">
+                                <span class="input-group-btn">
+                                    <a id="quick-search-icon" class="btn btn-default" type="submit" value="Search" href="../../pages/search/searchResults.html">
+                                        <span class="glyphicon glyphicon-search" style="line-height: 20px;"></span>
+                                    </a>
+                                </span>
+                            </div>
+                            <span style="padding-left: 10px; color: grey;">
+                                e.g. <a href="#">Carboxy*</a>, <a href="#">chx28</a>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+		</div>
+	</div>
+  
+  <!-- Content -->
+  <div class="panel panel-default" style="margin-top: 15px;">
+    <div class="panel-body" style="padding: 15px 25px 15px 25px; ">
+      
+      <div class="row" style="padding-top: 15px;">
+      	<div class="col-md-12">
+      		
+      		<table class="table table-hover table-stripped table-bordered" style="width: 1000px;" align="center">
+      			<thead>
+      				<tr>
+      					<td>Species</td>
+      					<td>Studies</td>
+      					<td>Publications</td>
+      					<td>Traits#</td>
+      					<td>Association#</td>
+      				</tr>
+      			</thead>
+      			<tbody>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      				<tr>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      					<td>-</td>
+      				</tr>
+      			</tbody>
+      		</table>
+      		
+	    </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+  var odiv = document.getElementById('nav-tab4');
+  addClass(odiv, 'active');
+</script>
+
+</body>
+</html>

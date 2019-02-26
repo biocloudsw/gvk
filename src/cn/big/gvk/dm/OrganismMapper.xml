@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.organism">
+
+	<resultMap id="OrganismMap" type="cn.big.gvk.po.OrganismBean">
+		<result property="orgId" column="org_id"/>
+		<result property="latinName" column="latin_name" />
+		<result property="commonName" column="common_name" />
+		<result property="version" column="version" />
+	</resultMap>
+
+	<select id="selectAllOrganism" resultMap="OrganismMap">
+			select * from organism
+	</select>
+
+</mapper>

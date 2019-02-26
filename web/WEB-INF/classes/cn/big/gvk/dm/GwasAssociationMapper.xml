@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.GwasAssociation">
+	<resultMap id="GwasAssociationMap" type="cn.big.gvk.po.GwasAssociationBean">
+		<id property="gaId" column="ga_id"/>
+		<result property="genotypeId" column="genotype_id"/>
+		<result property="traitId" column="trait_id"/>
+		<result property="modelId" column="model_id"/>
+		<result property="studyId" column="study_id"/>
+		<result property="paperId" column="paper_id"/>
+		<result property="orgId" column="org_id"/>
+		<result property="traitCount" column="trait_count"/>
+		<result property="rval" column="rval"/>
+		<result property="pvalue" column="p_value"/>
+		<result property="gwasCount" column="gwas_count" />
+		<result property="traitName" column="trait_name" />
+	</resultMap>
+
+
+	<resultMap id="GwasAssociationViewMap" type="cn.big.gvk.po.GwasAssociationView">
+		<result property="gaId" column="ga_id"/>
+		<result property="varId" column="var_id"/>
+		<result property="chrom" column="chrom"/>
+		<result property="startPos" column="start_pos"/>
+		<result property="endPos" column="end_pos"/>
+		<result property="traitId" column="trait_id"/>
+		<result property="traitName" column="trait_name"/>
+		<result property="rval" column="rval"/>
+		<result property="pvalue" column="p_value"/>
+		<result property="pmid" column="pmid" />
+		<result property="studyAcc" column="study_acc" />
+		<result property="speciesCommonName" column="common_name" />
+		<result property="refversion" column="version" />
+		<result property="genotypeId" column="genotype_id" />
+		<result property="traitCount" column="trait_count" />
+	</resultMap>
+
+
+	<select id="selectGwasViewInfo" parameterType="java.util.Map" resultMap="GwasAssociationViewMap">
+		select a.ga_id,a.trait_id,a.genotype_id,(select trait_name from trait where trait.trait_id=a.trait_id) as trait_name,a.rval,a.p_value,b.var_id,b.chrom,b.start_pos,b.end_pos,(select study_acc from study where study.study_id=a.study_id) as study_acc,
+		(select pmid from publication where publication.paper_id=a.paper_id) as pmid,(select common_name from organism where organism.org_id=a.org_id) as common_name,
+		(select version from organism where organism.org_id=a.org_id) as version from  gwas_association a inner join genotype b on a.genotype_id=b.genotype_id
+		where a.trait_id in
+		<foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="species != null ">
+			and a.org_id=#{species}
+		</if>
+	</select>
+
+
+	<select id="selectGwasViewByGeneInfo" parameterType="java.util.Map" resultMap="GwasAssociationViewMap">
+		 select
+		<choose>
+			<when test="count != null">
+				count(*) as trait_count
+			</when>
+			<otherwise>
+				a.ga_id,a.trait_id,a.genotype_id,(select trait_name from trait where trait.trait_id=a.trait_id) as trait_name,a.rval,a.p_value,b.var_id,b.chrom,b.start_pos,b.end_pos,(select study_acc from study where study.study_id=a.study_id) as study_acc,
+				(select pmid from publication where publication.paper_id=a.paper_id) as pmid,(select common_name from organism where organism.org_id=a.org_id) as common_name,
+				(select version from organism where organism.org_id=a.org_id) as version
+			</otherwise>
+		</choose>
+		from  genotype b inner join gwas_association a  on a.genotype_id=b.genotype_id
+		where b.genotype_id in (select genotype_id from genotype_annotate_gene where g_id=#{gId})
+	</select>
+
+
+
+
+
+    <select id="selectGwasIdByFuzzySearch" parameterType="java.util.Map" resultMap="GwasAssociationMap">
+    	select distinct a.ga_id, a.trait_id,a.study_id,a.paper_id,a.genotype_id,b.trait_name,c.chrom,e.report_gene_id,e.entrez_gene_symbol
+    	  from gwas_association  a
+    	 inner join trait b on a.trait_id=b.trait_id
+		 inner join genotype c on a.genotype_id=c.genotype_id
+		 inner join gwas_association_report_gene d on a.ga_id=d.ga_id
+		 inner join report_gene e on e.rpg_id=d.rpg_id
+		where 1=1
+		<if test="searchParam != null ">
+		and  (b.trait_name like  #{searchParam}
+		or c.chrom like #{searchParam}
+		 or e.report_gene_id like #{searchParam}  or e.entrez_gene_symbol like #{searchParam} )
+		</if>
+		<if test="species != null ">
+			and a.org_id=#{species}
+		</if>
+
+		<if test=" p1 != null">
+			limit ${p1},${p2}
+		</if>
+    </select>
+
+
+    <select id="selecTraitByFuzzySearch" parameterType="java.util.Map" resultMap="GwasAssociationMap">
+        select
+        <choose>
+            <when test="count != null">
+                count(distinct b.trait_id) as trait_count
+            </when>
+            <otherwise>
+                distinct b.trait_id,b.trait_name
+            </otherwise>
+        </choose>
+       from trait b  inner join  gwas_association  a on a.trait_id=b.trait_id
+        where 1=1
+        <if test="searchParam != null ">
+            and  b.trait_name like  CONCAT('%',#{searchParam},'%')
+        </if>
+        <if test="species != null ">
+            and a.org_id=#{species}
+        </if>
+
+        <if test=" p1 != null">
+            limit ${p1},${p2}
+        </if>
+    </select>
+
+
+
+
+	<select id="selectAssociationCountByTraitId" parameterType="java.util.Map" resultMap="GwasAssociationMap">
+		select count(*) as gwas_count from gwas_association where trait_id=#{traitId}
+		<if test="species != null ">
+			and org_id=#{species}
+		</if>
+	</select>
+
+
+	<select id="selectAssociationCountByPubid" parameterType="java.lang.Integer" resultMap="GwasAssociationMap" >
+			select count(*) as gwas_count from gwas_association where paper_id=#{paperId}
+	</select>
+
+
+	<select id="selectAssociationCountByStudyid" parameterType="java.lang.Integer" resultMap="GwasAssociationMap" >
+			select count(*) as gwas_count from gwas_association where study_id=#{studyId}
+	</select>
+
+
+    <select id="selectStudyCountByTraitid" parameterType="java.util.Map" resultMap="GwasAssociationMap">
+        select count(distinct study_id) as gwas_count from gwas_association where trait_id=#{traitId}
+		<if test="species != null ">
+			and org_id=#{species}
+		</if>
+    </select>
+</mapper>
