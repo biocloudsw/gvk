@@ -32,6 +32,9 @@
 		 from study a
 		inner join gwas_association b on a.study_id=b.study_id
 		where trait_id=#{traitId}
+		<if test="species != null ">
+		and b.org_id=#{species}
+		</if>
 	</select>
 
 	<select id="selectStudyByMapGeneId" parameterType="java.util.Map" resultMap="StudyMap">

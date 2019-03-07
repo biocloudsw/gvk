@@ -7,12 +7,16 @@
 					<div class="bootstrap-table">
 					
 							<div class="fixed-table-toolbar">
+							
+							 <s:if test="itemCountList != null">
 								<div class="columns columns-left pull-left">
-									<button class="btn btn-default">Maize(50)</button>
-									<button class="btn btn-default">Rice(30)</button>
-									<button class="btn btn-default">Sorghum(10)</button>
-									<button class="btn btn-default">NNN(10)</button>
+								
+									<s:iterator value="itemCountList" id="itemCount">
+									<button class="btn btn-default" onclick="window.location.href='/gvk/browse/getPublication?param=<s:property value="#parameters.param" />&amp;param1=<s:property value="#itemCount.id" />'"><s:property value="#itemCount.name" />( <s:property value="#itemCount.count" /> )</button>
+									</s:iterator>
+
 								</div>
+								</s:if>
 								<div class="columns columns-right btn-group pull-right">
 									<div class="keep-open btn-group" title="Columns">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -42,7 +46,7 @@
 								</div>
 							</div>
 							
-							<div class="fixed-table-container" style="padding-bottom: 0px;">
+							<div style="padding-bottom: 0px;">
 								<!-- <div class="fixed-table-body"> -->
 								<div>
 									<table id="publication_list" class="table table-bordered table-hover">

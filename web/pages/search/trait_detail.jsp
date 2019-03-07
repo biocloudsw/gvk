@@ -129,7 +129,7 @@
 					   
 
 					<div id="association" class="tab-pane active" role="tabpanel">
-						<iframe id="idgbframe1"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getAssociation?param=<s:property value='param' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+						<iframe id="idgbframe1"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getAssociation?param=<s:property value='param' />&param1=<s:property value='param1' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 						</iframe>
 						<div class="clearfix"></div>
 					</div>
@@ -137,7 +137,7 @@
 				
 
 					<div id="study" class="tab-pane" role="tabpanel">
-						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="/gvk/browse/getStudy?param=<s:property value='param' />" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
+						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="/gvk/browse/getStudy?param=<s:property value='param' />&param1=<s:property value='param1' />" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
 						</iframe>
 						
 						
@@ -149,7 +149,7 @@
 
 					<div id="publication" class="tab-pane" role="tabpanel">
 					
-						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getPublication?param=<s:property value='param' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getPublication?param=<s:property value='param' />&param1=<s:property value='param1' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 						</iframe>
 						<div class="clearfix"></div>
 					</div>

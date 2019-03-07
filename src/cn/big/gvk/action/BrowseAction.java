@@ -14,6 +14,8 @@ import java.util.Map;
 
 /*********************************************
  * this is used to browse data detail information
+ *
+ *hello, this is a test
  */
 public class BrowseAction extends ActionSupport {
 
@@ -37,7 +39,14 @@ public class BrowseAction extends ActionSupport {
      * @return
      */
     public String execBrowsePublicationByTraitFunc(){
-        this.publicationList = (List<PublicationBean>)baseService.findResultList("cn.big.gvk.dm.publication.selectPubByTraitId",param);
+
+        Map cmap = new HashMap();
+        cmap.put("traitId", param) ;
+        if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("species", param1) ;
+        }
+
+        this.publicationList = (List<PublicationBean>)baseService.findResultList("cn.big.gvk.dm.publication.selectPubByTraitId",cmap);
         if(this.publicationList  != null){
             for(PublicationBean pubbean: publicationList){
                 GwasAssociationBean gbean = (GwasAssociationBean)  baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectAssociationCountByPubid",pubbean.getPaperId()) ;
@@ -46,6 +55,35 @@ public class BrowseAction extends ActionSupport {
                 }
             }
         }
+
+        //get the publication for each species
+        List<OrganismBean> orglist =(List<OrganismBean> ) baseService.findResultList("cn.big.gvk.dm.organism.selectAllOrganism",null);
+        if(orglist != null && orglist.size()>0){
+            itemCountList = new ArrayList<ItemCount>();
+
+            for(OrganismBean org : orglist){
+
+                Map countmap = new HashMap();
+                countmap.put("species",org.getOrgId());
+                countmap.put("traitId",this.param);
+
+                //publication count
+                PublicationBean publication = (PublicationBean)baseService.findObjectByObject("cn.big.gvk.dm.publication.selectPubCountByTraitId",countmap);
+                if (publication != null && publication.getPublicationCount()>0){
+                    ItemCount tb = new ItemCount();
+                    tb.setId(org.getOrgId());
+                    tb.setName(org.getCommonName());
+                    tb.setCount(publication.getPublicationCount());
+                    itemCountList.add(tb);
+
+                }
+            }
+        }
+
+
+
+
+
         return SUCCESS;
     }
 
@@ -76,7 +114,13 @@ public class BrowseAction extends ActionSupport {
      */
     public String execBrowseStudyByTraitFunc(){
 
-       this.studyList = (List<StudyBean>) baseService.findResultList("cn.big.gvk.dm.study.selectStudyByTraitId",param);
+       Map cmap = new HashMap();
+       cmap.put("traitId",param);
+       if(this.param1 != null && this.param1.equals("all") == false){
+           cmap.put("species",param1);
+       }
+
+       this.studyList = (List<StudyBean>) baseService.findResultList("cn.big.gvk.dm.study.selectStudyByTraitId",cmap);
        if(this.studyList != null && this.studyList.size() >0 ){
             for(StudyBean study: studyList){
                 /////////////need to modify table gwas_genotype_tech
@@ -96,6 +140,33 @@ public class BrowseAction extends ActionSupport {
                 }
             }
        }
+
+       //here,need to return the study count for each species
+        List<OrganismBean> orglist =(List<OrganismBean> ) baseService.findResultList("cn.big.gvk.dm.organism.selectAllOrganism",null);
+        if(orglist != null && orglist.size()>0){
+            itemCountList = new ArrayList<ItemCount>();
+
+            for(OrganismBean org : orglist){
+
+                Map countmap = new HashMap();
+                countmap.put("species",org.getOrgId());
+                countmap.put("traitId",this.param);
+
+                GwasAssociationBean tg_bean1 = (GwasAssociationBean)baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectStudyCountByTraitid",countmap);
+                if(tg_bean1 != null && tg_bean1.getGwasCount() > 0 ){
+                    ItemCount tb = new ItemCount();
+                    tb.setId(org.getOrgId());
+                    tb.setName(org.getCommonName());
+                    tb.setCount(tg_bean1.getGwasCount());
+                    itemCountList.add(tb);
+                }
+
+            }
+        }
+
+
+
+
         return SUCCESS;
     }
 
@@ -222,6 +293,8 @@ public class BrowseAction extends ActionSupport {
      * @return
      */
     public String execGetMapGeneFunc(){
+
+
         mapGeneBean =(MapGeneBean) baseService.findObjectByObject("cn.big.gvk.dm.MapGene.selectMapGenebyGeneid",param) ;
 
         if(mapGeneBean != null ){
@@ -265,7 +338,7 @@ public class BrowseAction extends ActionSupport {
              traitlist.add(param);
             Map t = new HashMap();
             t.put("traitlist",traitlist);
-            if(this.param1 != null ){ // orgid
+            if(this.param1 != null && this.param1.equals("all") == false){ // orgid
                 t.put("species",this.param1) ;
 
             }

@@ -20,6 +20,46 @@
   
 <body>
 
+						<div class="fixed-table-toolbar">
+							   <s:if test="itemCountList != null">
+							   <div class="columns columns-left pull-left">
+							   		<s:iterator value="itemCountList" id="itemCount">
+									
+									<button class="btn btn-default" onclick="window.location.href='/gvk/browse/getStudy?param=<s:property value="#parameters.param" />&amp;param1=<s:property value="#itemCount.id" />'"><s:property value="#itemCount.name" />( <s:property value="#itemCount.count" /> )</button>
+									
+									</s:iterator>
+							   </div>
+							   </s:if>
+								<div class="columns columns-right btn-group pull-right">
+									<div class="keep-open btn-group" title="Columns">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<i class="glyphicon glyphicon-th icon-th"></i>
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
+											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
+										</ul>
+									</div>
+									<div class="export btn-group">
+										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li role="menuitem" data-type="csv">
+												<a href="javascript:void(0)">CSV</a>
+											</li>
+											<li role="menuitem" data-type="txt">
+												<a href="javascript:void(0)">TXT</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+
 							<div  style="padding-bottom: 0px;">
 								<div>
 									<table id="study_list" class="table table-bordered table-hover">
