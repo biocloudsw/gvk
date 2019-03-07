@@ -14,6 +14,8 @@ import java.util.Map;
 
 /*********************************************
  * this is used to browse data detail information
+ *
+ *hello, this is a test
  */
 public class BrowseAction extends ActionSupport {
 
