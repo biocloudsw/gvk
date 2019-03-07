@@ -1,8 +1,8 @@
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
-<link href="/gvk/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
-<link href="/gvk/css/common.css" rel="stylesheet" />
+						<%@ taglib prefix="s" uri="/struts-tags"%>
+						<link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+						<link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
+						<link href="/gvk/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
+						<link href="/gvk/css/common.css" rel="stylesheet" />
 						<div class="bootstrap-table">
 							<div class="fixed-table-toolbar">
 							   <s:if test="itemCountList != null">
@@ -40,7 +40,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="fixed-table-container" style="padding-bottom: 0px;">
+							<div  style="padding-bottom: 0px;">
 							
 								<!-- <div class="fixed-table-body"> -->
 								<div >

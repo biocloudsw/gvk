@@ -80,8 +80,11 @@ public class SearchAction extends ActionSupport {
                             int idex1 = this.searchParam.indexOf("-");
                             pstart = Integer.parseInt(this.searchParam.substring(idex+1, idex1-1));
                             pend  = Integer.parseInt(this.searchParam.substring(idex1+1, this.searchParam.length()));
-                            map.put("start",pstart);
-                            map.put("end",pend);
+                            map.put("startpos",pstart);
+                            map.put("endpos",pend);
+                        }else {
+                            pstart = Integer.parseInt(this.searchParam.substring(idex+1, this.searchParam.length()));
+                            map.put("startpos",pstart);
                         }
 
                 }else if(this.searchParam.startsWith("chr") == true){
@@ -90,6 +93,10 @@ public class SearchAction extends ActionSupport {
 
 
                 /////// search genotype
+                GenotypeBean genotype = (GenotypeBean) baseService.findObjectByObject("cn.big.gvk.dm.Genotype.selectGenotypeByPos",map);
+                if( genotype != null ){
+                    mgenotypeCount = genotype.getGenotypeCount();
+                }
 
 
 
@@ -101,10 +108,9 @@ public class SearchAction extends ActionSupport {
             return "trait";
         }else if(this.mgeneCount>0){
             return "gene";
+        }else if(this.mgenotypeCount > 0 ){
+            return "variation" ;
         }
-
-
-
 
 
         return SUCCESS;
@@ -553,8 +559,79 @@ public class SearchAction extends ActionSupport {
     }
 
 
+    /********************************************************
+     * this is used to search variation
+     * @return
+     */
+    public String execFuzzySearchVariationFunc(){
+
+        Map map = new HashMap();
+
+        if(this.searchParam != null && this.searchParam.length()> 0 ){
+            System.out.println(this.searchParam );
+            map.put("searchParam",this.searchParam);
+        }
+
+        if(this.searchSpecies!= null && this.searchSpecies.equals("all") == false){
+            map.put("species",this.searchSpecies);
+        }
 
 
+
+        int offset = -1;
+        int limit = -1;
+
+        int pageno = 0;
+        int pagesize = 0;
+        int totalcount = -1;
+
+        if( (this.totalCount!=null && this.totalCount.equals("-1")==false)){
+            totalcount = Integer.parseInt(totalCount);
+        }
+
+        if(this.isFirstSearchFlag == 0){
+            if(totalCount != null && totalCount.length()>0){
+                totalcount = Integer.parseInt(totalCount);
+            }
+        }
+
+        if(this.pageNo != null ){
+            pageno = (int)this.pageNo;
+        }
+
+        if(this.pageSize != null ){
+            pagesize = (int) this.pageSize;
+        }
+
+
+        if(totalcount != -1){
+            page = new Page(totalcount, pageno, pagesize, 0);
+
+            if (this.page.getPageSize() > totalcount){
+                offset = this.page.getRowFrom() -1 ;
+                limit = totalcount ;
+            }else {
+                offset = this.page.getRowFrom() -1;
+                limit = this.page.getPageSize() ;
+            }
+        }else{
+            //first compute count
+            offset = 0 ;
+            limit =10;
+
+            map.put("count","count");
+            MapGeneBean genebean = (MapGeneBean) baseService.findObjectByObject("cn.big.gvk.dm.MapGene.selectMapGeneCount",map);
+            if(genebean!=null ){
+                totalcount = genebean.getGeneCount();
+            }
+            map.remove("count");
+        }
+
+        //
+
+
+        return SUCCESS;
+    }
 
 
 

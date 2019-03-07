@@ -59,7 +59,7 @@
                                 </span>
                             </div>
                             <span style="padding-left: 10px; color: grey;">
-                                e.g. <a href="#">Carboxy*</a>, <a href="#">chx28</a>
+                                e.g. <a href="#">Carboxy*</a>, <a href="#">chr1</a>
                             </span>
                         </div>
                     </form>

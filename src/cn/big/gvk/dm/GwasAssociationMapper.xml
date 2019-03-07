@@ -65,6 +65,8 @@
 		</choose>
 		from  genotype b inner join gwas_association a  on a.genotype_id=b.genotype_id
 		where b.genotype_id in (select genotype_id from genotype_annotate_gene where g_id=#{gId})
+
+
 	</select>
 
 

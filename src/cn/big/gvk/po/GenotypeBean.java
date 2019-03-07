@@ -6,6 +6,15 @@ public class GenotypeBean {
     private String chrom;
     private int startPos;
     private int endPos;
+    private int genotypeCount;
+
+    public int getGenotypeCount() {
+        return genotypeCount;
+    }
+
+    public void setGenotypeCount(int genotypeCount) {
+        this.genotypeCount = genotypeCount;
+    }
 
     public int getGenotypeId() {
         return genotypeId;

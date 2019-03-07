@@ -13,6 +13,7 @@
         <action name="fuzzySearch" class="searchAction" method="execFuzzySearchFunc">
             <result name="trait" type="chain">fuzzyTraitSearch</result>
             <result name="gene" type="chain">fuzzyGeneSearch</result>
+            <result name="variation" type="chain">fuzzyVariationSearch</result>
             <result name="success" >/pages/search/success_list.jsp</result>
             <result name="error"></result>
         </action>
@@ -27,9 +28,15 @@
             <result name="success">/pages/search/associationResult.jsp</result>
             <result name="error"></result>
         </action>
+
+
         <action name="fuzzyGeneSearch" class="searchAction" method="execFunzzySearchMapGeneFunc">
             <result name="success">/pages/search/gene_list_result.jsp</result>
             <result name="error"></result>
+        </action>
+
+        <action name="">
+
         </action>
 
     </package>
