@@ -183,7 +183,7 @@
 			<div class="panel panel-default">
 				 <div class="panel-body">
 				 
-					<h4><a href="/gvk/browse/getTrait?param=<s:property value='#gwasAssociation.traitId'/>&param1=<s:property value='#gwasAssociation.orgId'/>"><s:property value="#gwasAssociation.traitName"/></a></h4>
+					<h4><a href="/gvk/browse/getTrait?param=<s:property value='#gwasAssociation.traitId'/>&param1=<s:property value='searchSpecies'/>"><s:property value="#gwasAssociation.traitName"/></a></h4>
 					<h5><s:property value="#gwasAssociation.termDefinition"/></h5>
 					<h5>Associations:<span class="label label-default"><s:property value="#gwasAssociation.traitCount"/></span>&nbsp;&nbsp;&nbsp;&nbsp;Studies:<span class="label label-default"><s:property value="#gwasAssociation.gwasCount"/></span></h5>
 				</div>

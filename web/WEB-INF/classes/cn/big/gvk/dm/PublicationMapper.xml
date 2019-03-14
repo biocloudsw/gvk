@@ -17,6 +17,9 @@
 		select distinct a.paper_id, a.pmid,a.journal,a.title,a.author,a.pub_year,(select common_name from organism where organism.org_id=b.org_id)  as common_name
 		 from publication a inner join gwas_association b on a.paper_id=b.paper_id
 		where trait_id=#{traitId}
+		<if test="species != null ">
+			and b.org_id=#{species}
+		</if>
 	</select>
 
 	<select id="selectPubCountByTraitId"  parameterType="java.util.Map" resultMap="PublicationMap">
@@ -24,7 +27,7 @@
 		  from publication a inner join gwas_association b on a.paper_id=b.paper_id
 		  where trait_id=#{traitId}
 		  <if test="species != null ">
-		  and a.org_id=#{species}
+		  and b.org_id=#{species}
 		  </if>
 
 	</select>
