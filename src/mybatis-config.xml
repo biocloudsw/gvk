@@ -19,6 +19,9 @@
 		<mapper resource="cn/big/gvk/dm/GeneMapper.xml"/>
 		<mapper resource="cn/big/gvk/dm/GoMapper.xml"/>
 		<mapper resource="cn/big/gvk/dm/OrganismMapper.xml"/>
+		<mapper resource="cn/big/gvk/dm/StatisticMapper.xml" />  <!-- tiandm 20190306-->
+
+
 	</mappers>
 		
 </configuration>		

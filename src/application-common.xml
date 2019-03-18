@@ -64,8 +64,7 @@
 	<!-- Actions -->
 	<bean id="searchAction" class="cn.big.gvk.action.SearchAction" scope="prototype"></bean>
 	<bean id="browseAction" class="cn.big.gvk.action.BrowseAction" scope="prototype"></bean>
-	<bean id="BrowseGOAction" class="cn.big.gvk.action.OntologyAction" scope="prototype">
-
-	</bean>
+	<bean id="BrowseGOAction" class="cn.big.gvk.action.OntologyAction" scope="prototype"></bean>
+	<bean id="StaticAction" class="cn.big.gvk.action.StaticAction" scope="prototype"></bean> <!-- tiandm 20190306  -->
 
 </beans>

@@ -98,6 +98,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.context-3.0.4.RELEASE.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.test-3.0.4.RELEASE.jar.zip" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/org.springframework.expression-3.0.4.RELEASE.jar" />
+          <element id="library" level="project" name="gvk" />
         </element>
       </element>
     </root>

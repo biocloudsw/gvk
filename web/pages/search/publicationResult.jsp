@@ -78,8 +78,8 @@
 										</thead>
 										<tbody>
 											<s:iterator id="publication" value="publicationList">
-										
-											<tr>
+
+											</s:iterator>
 												<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/27714888" target="_blank"><s:property value="#publication.pmid"/></a><span class="glyphicon glyphicon-share"></span></td>
 												<td><s:property value="#publication.journal"/></td>
 												<td><s:property value="#publication.title"/></td>

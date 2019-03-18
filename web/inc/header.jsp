@@ -53,13 +53,13 @@
 	          	</a>
 	          </li>
 	          <li id="nav-tab3">
-	         	 <a>
+	         	 <a href="/gvk/pages/download/download.jsp">
 	         		 <span class="glyphicon glyphicon-save"></span>
 	          		Download
 	         	 </a>
 	          </li>
 	          <li id="nav-tab4">
-	          	<a href="pages/statistics/species.html">
+	          	<a href="/gvk/statistics/gotoStatic">
 	          		<span class="glyphicon glyphicon-signal"></span>
 	          		Statistics
 	          	</a>
