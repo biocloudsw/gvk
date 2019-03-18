@@ -8,6 +8,7 @@
 		<result property="chrom" column="chrom"/>
 		<result property="startPos" column="start_pos"/>
 		<result property="endPos" column="end_pos"/>
+		<result property="genotypeCount" column="genotype_count" />
 	</resultMap>
 
 	<resultMap id="GenotypeAnnotateGeneViewMap" type="cn.big.gvk.po.GenotypeAnnotateGeneView">
@@ -31,11 +32,6 @@
         <result property="reportGeneId" column="report_gene_id" />
         <result property="entrezGeneSymbol" column="entrez_gene_symbol" />
     </resultMap>
-
-
-
-
-
 
 	
 	<select id="selectGenotypeById" resultMap="GenotypeAnnotateGeneViewMap">
@@ -62,6 +58,36 @@
     <select id="selectReportGeneById" resultMap="ReportGeneMap">
       select a.report_gene_id,a.entrez_gene_symbol from report_gene a, gwas_association_report_gene b where a.rpg_id=b.rpg_id and b.ga_id=#{gaId}
     </select>
+
+
+	<select id="selectGenotypeByPos" parameterType="java.util.Map" resultMap="GenotypeMap">
+		select
+		<choose>
+			<when test="count != null">
+				count(distinct var_id) as genotype_count
+			</when>
+			<otherwise>
+				genotype_id, var_id,chrom,start_pos,end_pos
+			</otherwise>
+		</choose>
+		from genotype where 1=1 and var_id is not null
+		<if test="chrom != null ">
+			and chrom=#{chrom}
+		</if>
+		<if test="startpos != null ">
+			and start_pos &gt;= #{startpos}
+		</if>
+		<if test="endpos != null ">
+			and end_pos &lt;=#{endpos}
+		</if>
+		<if test="genotypeid !=null ">
+			and genotype_id=#{genotypeid}
+		</if>
+		<if test=" p1 != null">
+			limit ${p1},${p2}
+		</if>
+	</select>
+
 
 
 

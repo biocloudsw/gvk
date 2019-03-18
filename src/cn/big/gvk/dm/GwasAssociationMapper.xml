@@ -140,6 +140,10 @@
 			select count(*) as gwas_count from gwas_association where study_id=#{studyId}
 	</select>
 
+	<select id="selectAssociationCountByGenotypeid" parameterType="java.lang.Integer" resultMap="GwasAssociationMap" >
+			select count(*) as gwas_count from gwas_association where genotype_id=#{genotypeId}
+	</select>
+
 
     <select id="selectStudyCountByTraitid" parameterType="java.util.Map" resultMap="GwasAssociationMap">
         select count(distinct study_id) as gwas_count from gwas_association where trait_id=#{traitId}
@@ -147,4 +151,12 @@
 			and org_id=#{species}
 		</if>
     </select>
+
+	<select id="selectStudyCountByGenotypeid" parameterType="java.util.Map" resultMap="GwasAssociationMap">
+		select count(distinct study_id) as gwas_count from gwas_association where genotype_id=#{genotypeId}
+		<if test="species != null ">
+			and org_id=#{species}
+		</if>
+	</select>
+
 </mapper>

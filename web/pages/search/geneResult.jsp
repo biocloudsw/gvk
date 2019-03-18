@@ -12,31 +12,7 @@
 									<button class="btn btn-default">NNN(10)</button>
 								</div>
 								<div class="columns columns-right btn-group pull-right">
-									<div class="keep-open btn-group" title="Columns">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											<i class="glyphicon glyphicon-th icon-th"></i>
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 1</label></li>
-											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 2</label></li>
-											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 3</label></li>
-											<li><label><input type="checkbox" data-field="0" value="0" checked="checked">Example 4</label></li>
-										</ul>
-									</div>
-									<div class="export btn-group">
-										<button class="btn btn-default dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
-											<i class="glyphicon glyphicon-export icon-share"></i> <span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li role="menuitem" data-type="csv">
-												<a href="javascript:void(0)">CSV</a>
-											</li>
-											<li role="menuitem" data-type="txt">
-												<a href="javascript:void(0)">TXT</a>
-											</li>
-										</ul>
-									</div>
+									
 								</div>
 							</div>
 							<div class="fixed-table-container" style="padding-bottom: 0px;">
@@ -88,10 +64,16 @@
 								
 							</div>
 						</div>
+							</div>
 				<script src="/gvk/js/jquery-3.2.1.min.js"></script>
 				<script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
-				<link href="/gvk/css/bootstrap-table.min.css" rel="stylesheet">	
-				<script  src="/gvk/js/bootstrap-table.min.js"></script>
+				<!--<link href="/gvk/css/bootstrap-table.min.css" rel="stylesheet">	
+				 <script  src="/gvk/js/bootstrap-table.min.js"></script> -->
+				 <script src="/gvk/js/tableExport.min.js" type="text/javascript"></script>
+				 <link href="/gvk/css/bootstrap-table.min.1.14.1.css" rel="stylesheet">	
+				 <script  src="/gvk/js/bootstrap-table.min.1.14.1.js" type="text/javascript"></script> 
+				 <script src="/gvk/js/bootstrap-table-export.min.1.14.1.js" type="text/javascript"></script>
+				 
 				<script type="text/javascript">
 	
 	
@@ -111,8 +93,12 @@
 						showToggle:false,
 						cardView: false,
 						showHeader:true,
-						 fixedColumns: true, 
-						fixedNumber: 10,
+						 fixedColumns: true,
+						 showColumns:true,
+						showExport:true,
+						exportDataType:'all',
+						exportTypes:['excel','csv', 'txt','json'], 
+						
 						height : 600
 				
 					});

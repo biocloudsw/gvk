@@ -67,7 +67,7 @@
 				count(distinct var_id) as genotype_count
 			</when>
 			<otherwise>
-				genotype_id, var_id
+				genotype_id, var_id,chrom,start_pos,end_pos
 			</otherwise>
 		</choose>
 		from genotype where 1=1 and var_id is not null
@@ -80,11 +80,16 @@
 		<if test="endpos != null ">
 			and end_pos &lt;=#{endpos}
 		</if>
-
+		<if test="genotypeid !=null ">
+			and genotype_id=#{genotypeid}
+		</if>
 		<if test=" p1 != null">
 			limit ${p1},${p2}
 		</if>
 	</select>
+
+
+
 
 
 </mapper>

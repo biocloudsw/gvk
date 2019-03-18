@@ -5,12 +5,10 @@ import cn.big.gvk.service.IBaseService;
 import cn.big.gvk.util.Page;
 import com.opensymphony.xwork2.ActionSupport;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import java.awt.*;
-import java.util.Map;
+import java.util.List;
 
 /*********************************************
  * this is used to browse data detail information
@@ -31,6 +29,7 @@ public class BrowseAction extends ActionSupport {
 
     private List<GwasAssociationView> gwasAssociationViewList;
     private MapGeneBean mapGeneBean;
+    private GenotypeBean genotypeBean;
 
     private List<ItemCount> itemCountList;
 
@@ -325,6 +324,62 @@ public class BrowseAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /********************************************************************
+     * this is used to get variant detail information
+     * @return
+     */
+    public String execGetVariantDetailFunc(){
+        Map cmap = new HashMap();
+        cmap.put("genotypeid",param);
+        if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("species",param1);
+        }
+
+        //get genotype detail information
+        genotypeBean= (GenotypeBean)baseService.findObjectByObject("cn.big.gvk.dm.Genotype.selectGenotypeByPos",cmap);
+
+        if(genotypeBean != null ){
+
+            //process map gene
+            List genotypelist = new ArrayList();
+            genotypelist.add(genotypeBean.getGenotypeId()) ;
+
+            Map t = new HashMap();
+            t.put("genotypelist",genotypelist);
+            List<GenotypeAnnotateGeneView> annotateview = baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeById",t);
+            if(annotateview != null && annotateview.size()>0 ){
+                //here we need to filter the result
+                Map filtermap = new HashMap();
+                for(GenotypeAnnotateGeneView tview : annotateview){
+                    String fkey = tview.getMapGeneId()+"_"+tview.getConseqtype();
+                    if(filtermap.containsKey(fkey) == false){
+                        filtermap.put(fkey,tview);
+                    }
+                }
+
+                if(filtermap.size()>0){
+                    List<GenotypeAnnotateGeneView>  alist = new ArrayList<GenotypeAnnotateGeneView>();
+                    Iterator it = filtermap.entrySet().iterator();
+                    while(it.hasNext()){
+                        Map.Entry entry = (Map.Entry) it.next();
+                        GenotypeAnnotateGeneView val = (GenotypeAnnotateGeneView) entry.getValue();
+                        alist.add(val);
+                    }
+
+                    genotypeBean.setGenotypeAnnotateGeneView(alist);
+                }
+
+
+            }
+
+
+
+
+
+        }
+
+        return SUCCESS;
+    }
 
     /*********************************************************
      * this is uesd to search gwas association information

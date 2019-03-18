@@ -1,5 +1,7 @@
 package cn.big.gvk.po;
 
+import java.util.List;
+
 public class GenotypeBean {
     private int genotypeId;
     private String varId;
@@ -7,6 +9,45 @@ public class GenotypeBean {
     private int startPos;
     private int endPos;
     private int genotypeCount;
+    private int studyCount;
+    private int traitCount; // association count
+
+    private List<GenotypeAnnotateGeneView>  genotypeAnnotateGeneView;
+
+    //genotype detail
+    private List<TraitBean> traitBeanList; //trait and reported trait
+
+    public List<TraitBean> getTraitBeanList() {
+        return traitBeanList;
+    }
+
+    public void setTraitBeanList(List<TraitBean> traitBeanList) {
+        this.traitBeanList = traitBeanList;
+    }
+
+    public int getStudyCount() {
+        return studyCount;
+    }
+
+    public void setStudyCount(int studyCount) {
+        this.studyCount = studyCount;
+    }
+
+    public int getTraitCount() {
+        return traitCount;
+    }
+
+    public void setTraitCount(int traitCount) {
+        this.traitCount = traitCount;
+    }
+
+    public List<GenotypeAnnotateGeneView> getGenotypeAnnotateGeneView() {
+        return genotypeAnnotateGeneView;
+    }
+
+    public void setGenotypeAnnotateGeneView(List<GenotypeAnnotateGeneView> genotypeAnnotateGeneView) {
+        this.genotypeAnnotateGeneView = genotypeAnnotateGeneView;
+    }
 
     public int getGenotypeCount() {
         return genotypeCount;

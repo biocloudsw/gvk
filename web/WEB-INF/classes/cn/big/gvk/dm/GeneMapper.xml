@@ -42,6 +42,22 @@
 	</select>
 
 
+	<select id="selectMapGeneCountByPosition" resultMap="MapGeneMap">
+		  select count(distinct a.g_id) as gene_count from genotype_annotate_gene a inner join genotype b
+		  on a.genotype_id=b.genotype_id where 1=1 and b.var_id is not null
+			<if test="chrom != null ">
+				and b.chrom=#{chrom}
+			</if>
+			<if test="startpos != null ">
+				and b.start_pos &gt;= #{startpos}
+			</if>
+			<if test="endpos != null ">
+				and b.end_pos &lt;=#{endpos}
+			</if>
+
+	</select>
+
+
 	<select id="selectMapGenebyGeneid" resultMap="MapGeneMap">
 		select * from gene where g_id=#{gId}
 	</select>

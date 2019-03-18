@@ -5,26 +5,31 @@ import cn.big.gvk.service.IBaseService;
 import cn.big.gvk.util.Page;
 import com.opensymphony.xwork2.ActionSupport;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SearchAction extends ActionSupport {
 
     private IBaseService baseService;
 
-
+    //input parameters
     private String searchParam;
     private String searchSpecies;
+
+
+    //output parameters
     private List<GwasAssociationBean> gwasAssociationList;
     private List<TermInformationBean> termInfoList;
     private List<GwasAssociationView> gwasAssociationViewList;
     private List<GenotypeAnnotateGeneView> genotypeAnnotateGeneViewList;
     private List<MapGeneBean> mapGeneBeanList;
+
+    private List<GenotypeBean> genotypeBeanList;
+
+
     private int mtraitCount;  //trait count
     private int mgeneCount; // gene count
     private int mgenotypeCount; // genotype count
+    private int mmapGeneCount; // position range has map gene count
 
 
     private Page page;
@@ -98,7 +103,11 @@ public class SearchAction extends ActionSupport {
                     mgenotypeCount = genotype.getGenotypeCount();
                 }
 
-
+                /////////search genecount
+                MapGeneBean mapgene = (MapGeneBean)   baseService.findObjectByObject("cn.big.gvk.dm.MapGene.selectMapGeneCountByPosition",map);
+                if(mapgene != null ){
+                    mmapGeneCount = mapgene.getGeneCount();
+                }
 
             }
         }
@@ -109,6 +118,7 @@ public class SearchAction extends ActionSupport {
         }else if(this.mgeneCount>0){
             return "gene";
         }else if(this.mgenotypeCount > 0 ){
+
             return "variation" ;
         }
 
@@ -561,22 +571,47 @@ public class SearchAction extends ActionSupport {
 
     /********************************************************
      * this is used to search variation
+     * query param: chromosome: startpos endpos
      * @return
      */
     public String execFuzzySearchVariationFunc(){
 
+        System.out.println("=========exec execFuzzySearchVariationFunc==========");
         Map map = new HashMap();
 
         if(this.searchParam != null && this.searchParam.length()> 0 ){
             System.out.println(this.searchParam );
+            if(this.searchParam.contains(":")==true || this.searchParam.startsWith("chr") == true) {
+                String chrom = "";
+                int pstart = -1;
+                int pend = -1;
+                if (this.searchParam.indexOf(":") > -1) {
+                    int idex = this.searchParam.indexOf(":");
+                    chrom = this.searchParam.substring(0, idex - 1);
+                    System.out.println("chrom=" + chrom);
+                    map.put("chrom", chrom);
+                    if (this.searchParam.indexOf("-") > -1) {
+                        int idex1 = this.searchParam.indexOf("-");
+                        pstart = Integer.parseInt(this.searchParam.substring(idex + 1, idex1 - 1));
+                        pend = Integer.parseInt(this.searchParam.substring(idex1 + 1, this.searchParam.length()));
+                        map.put("startpos", pstart);
+                        map.put("endpos", pend);
+                    } else {
+                        pstart = Integer.parseInt(this.searchParam.substring(idex + 1, this.searchParam.length()));
+                        map.put("startpos", pstart);
+                    }
+
+                } else if (this.searchParam.startsWith("chr") == true) {
+                    map.put("chrom", this.searchParam);
+                }
+            }
+
             map.put("searchParam",this.searchParam);
         }
 
         if(this.searchSpecies!= null && this.searchSpecies.equals("all") == false){
             map.put("species",this.searchSpecies);
         }
-
-
 
         int offset = -1;
         int limit = -1;
@@ -604,6 +639,8 @@ public class SearchAction extends ActionSupport {
         }
 
 
+
+
         if(totalcount != -1){
             page = new Page(totalcount, pageno, pagesize, 0);
 
@@ -620,15 +657,79 @@ public class SearchAction extends ActionSupport {
             limit =10;
 
             map.put("count","count");
-            MapGeneBean genebean = (MapGeneBean) baseService.findObjectByObject("cn.big.gvk.dm.MapGene.selectMapGeneCount",map);
-            if(genebean!=null ){
-                totalcount = genebean.getGeneCount();
+
+            //search genotype chr2:1-2345
+            /////// search genotype
+            GenotypeBean genotype = (GenotypeBean) baseService.findObjectByObject("cn.big.gvk.dm.Genotype.selectGenotypeByPos",map);
+            if( genotype != null ){
+                totalcount = genotype.getGenotypeCount();
             }
+
+
             map.remove("count");
         }
 
-        //
+        System.out.println("=====total count="+totalcount);
 
+        //here, parse search param  and get genotype information
+        genotypeBeanList = (List<GenotypeBean>) baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeByPos",map);
+        if(genotypeBeanList != null && genotypeBeanList.size() > 0 ){
+            for(GenotypeBean tbean :genotypeBeanList ){
+                List genotypelist = new ArrayList();
+                genotypelist.add(tbean.getGenotypeId()) ;
+
+                Map t = new HashMap();
+                t.put("genotypelist",genotypelist);
+                List<GenotypeAnnotateGeneView> annotateview = baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeByList",t);
+                if(annotateview != null && annotateview.size()>0 ){
+                    //here we need to filter the result
+                    Map filtermap = new HashMap();
+                    for(GenotypeAnnotateGeneView tview : annotateview){
+                        String fkey = tview.getMapGeneId()+"_"+tview.getConseqtype();
+                        if(filtermap.containsKey(fkey) == false){
+                            filtermap.put(fkey,tview);
+                        }
+                    }
+
+                    if(filtermap.size()>0){
+                        List<GenotypeAnnotateGeneView>  alist = new ArrayList<GenotypeAnnotateGeneView>();
+                        Iterator it = filtermap.entrySet().iterator();
+                        while(it.hasNext()){
+                            Map.Entry entry = (Map.Entry) it.next();
+                            GenotypeAnnotateGeneView val = (GenotypeAnnotateGeneView) entry.getValue();
+                            alist.add(val);
+                        }
+
+                        tbean.setGenotypeAnnotateGeneView(alist);
+                    }
+
+
+                }
+
+                //find association count
+                GwasAssociationBean gwas = (GwasAssociationBean) baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectAssociationCountByGenotypeid",tbean.getGenotypeId());
+                if(gwas != null){
+                  tbean.setTraitCount(gwas.getGwasCount());
+                }
+
+                //find studycount
+                Map cmap = new HashMap();
+                cmap.put("genotypeId",tbean.getGenotypeId());
+                if(this.searchSpecies!= null && this.searchSpecies.equals("all") == false){
+                    cmap.put("species",this.searchSpecies);
+                }
+
+
+                GwasAssociationBean tg_bean1 = (GwasAssociationBean)baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectStudyCountByGenotypeid",cmap);
+                if(tg_bean1 != null ){
+                    tbean.setStudyCount(tg_bean1.getGwasCount());
+                }
+
+            }
+
+
+
+        }
 
         return SUCCESS;
     }
@@ -765,5 +866,22 @@ public class SearchAction extends ActionSupport {
 
     public void setMapGeneBeanList(List<MapGeneBean> mapGeneBeanList) {
         this.mapGeneBeanList = mapGeneBeanList;
+    }
+
+
+    public List<GenotypeBean> getGenotypeBeanList() {
+        return genotypeBeanList;
+    }
+
+    public void setGenotypeBeanList(List<GenotypeBean> genotypeBeanList) {
+        this.genotypeBeanList = genotypeBeanList;
+    }
+
+    public int getMmapGeneCount() {
+        return mmapGeneCount;
+    }
+
+    public void setMmapGeneCount(int mmapGeneCount) {
+        this.mmapGeneCount = mmapGeneCount;
     }
 }

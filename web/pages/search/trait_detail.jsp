@@ -7,15 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
  
   <link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
+ <!-- <link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />-->
   <link href="/gvk/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
   <link href="/gvk/css/common.css" rel="stylesheet" />
-  
-  <script src="/gvk/js/jquery-3.2.1.min.js"></script>
-  <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/gvk/bootstrap/js/bootstrap-select.min.js"></script>
-  <script src="/gvk/js/headerfooter.js"></script>
+
+ <!-- <script src="/gvk/bootstrap/js/bootstrap-select.min.js"></script> -->
   <script src="/gvk/js/common.js"></script>
+  
+  	<script src="/gvk/js/jquery-3.2.1.min.js"></script>
+				<script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
+				<!--<link href="/gvk/css/bootstrap-table.min.css" rel="stylesheet">	
+				 <script  src="/gvk/js/bootstrap-table.min.js"></script> -->
+				 <script src="/gvk/js/tableExport.min.js" type="text/javascript"></script>
+				 <link href="/gvk/css/bootstrap-table.min.1.14.1.css" rel="stylesheet" />	
+				 <script  src="/gvk/js/bootstrap-table.min.1.14.1.js" type="text/javascript"></script> 
+				 <script src="/gvk/js/bootstrap-table-export.min.1.14.1.js" type="text/javascript"></script>
+  
+  
+  
 
   <title>Search Results</title>
   
@@ -137,7 +146,7 @@
 				
 
 					<div id="study" class="tab-pane" role="tabpanel">
-						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="/gvk/browse/getStudy?param=<s:property value='param' />&param1=<s:property value='param1' />" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
+						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
 						</iframe>
 						
 						
@@ -149,7 +158,7 @@
 
 					<div id="publication" class="tab-pane" role="tabpanel">
 					
-						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getPublication?param=<s:property value='param' />&param1=<s:property value='param1' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 						</iframe>
 						<div class="clearfix"></div>
 					</div>
@@ -162,6 +171,56 @@
 	</div>
     
 </div>
+<script type="text/javascript" language="javascript">
+	 
+        var param="<s:property value='param' />";
+		var param1="<s:property value='param1' />";	
+		
+		$('#myTabs a[href="#study"]').click(function (e) {
+		  e.preventDefault()
+		  $("#idgbframe3").attr("src","/gvk/browse/getStudy?param="+param+"&param1="+param1+"&time="+new Date().getTime());
+		  $(this).tab('show');
+		  
+		})
+		
+		
+		$('#myTabs a[href="#study"]').click(function (e) {
+		  e.preventDefault()
+		  $("#idgbframe3").attr("src","/gvk/browse/getStudy?param="+param+"&param1="+param1+"&time="+new Date().getTime());
+		  $(this).tab('show');
+		  
+		})
+		
+		$('#myTabs a[href="#publication"]').click(function (e) {
+			e.preventDefault()
+			$("#idgbframe4").attr("src","/gvk/browse/getPublication?param="+param+"&param1="+param1+"&time="+new Date().getTime());
+			$(this).tab('show');
+		});
+		
+		//$("#idgbframe1").attr("src","/gvk/browse/getAssociation?param="+param+"&param1="+param1);
+		
+		
+		
+		/*$("#idgbframe3").contents().find("#study_list").bootstrapTable({
+						sortable: true,
+						strictSearch: false,  
+						showRefresh: false,
+						pagination: true, 
+						paginationVAlign:'both',
+						pageList: [10,50,100],
+						showToggle:false,
+						cardView: false,
+						showHeader:true,
+						showColumns:true,
+						showExport:true,
+						exportDataType:'all',
+						exportTypes:['excel','csv', 'txt','json'], 
+						height : 600
+				
+					});; */
+  
+
+</script>
 
 </body>
 </html>

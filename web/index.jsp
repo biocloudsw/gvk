@@ -44,7 +44,7 @@
 	        	                <option value="1">Gossypium hirsutum (Cotton Ghir.BGI)</option>
 								<option value="2">Prunus mume (Japanese apricot P.mume_V1.0)</option>
 								<option value="3">Zea mays (Maize RefGen_v4)</option>
-	                        	<option value="4"> Brassica napus (Rape seed Bra_napus_v2.0)</option>
+	                        	<option value="4">Brassica napus (Rape seed Bra_napus_v2.0)</option>
 	        	                <option value="5">Oryza sativa (Rice IRGSP1.0)</option>
 								<option value="6">Sorghum bicolor (Sorghum Sbiv3.1)</option>
 								<option value="7">Glycine max (Soybean Wm82.a2.v1)</option>

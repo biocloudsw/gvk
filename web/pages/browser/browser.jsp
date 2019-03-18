@@ -15,7 +15,7 @@
   <script src="/gvk/js/jquery-ui.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
   <script src="/gvk/js/jstree.min.js"></script>
-  <script src="/gvk/js/headerfooter.js"></script>
+
   <script src="/gvk/js/common.js"></script>
 
   <title>GWAS Atlas</title>
@@ -136,7 +136,9 @@
                                 <div class="col-md-12">
 
 									<!--start-->
-															
+									<div>
+										<input type="hidden" id="idtrait"  value="<s:property value='gotermbean.traitid' />"/>		
+									</div>				
 									<div>
 										<ul id="myTabs" class="nav nav-tabs" role="tablist">
 										
@@ -185,12 +187,12 @@
 																<th>Definitions</th>
 																<td id="iddefinition"><s:property value="gotermdefinition.gotermdefinition"/></td>
 															</tr>
-															<tr id="idtrcomment">
+															<tr id="idtrcomment" >
 																<th>Comment</th>
 																<td id="idcomment"><s:property value="gotermdefinition.gotermcomment"/></td>
 															</tr>
 															
-															<tr>
+															<tr id="idtrsubclass" <s:if test="gotermbean.goParentTerm == null "> style="display:none" </s:if> <s:else> style="display:block" </s:else> >
 																<th>SubClassOf</th>
 																<td id="idparentterm"><s:if test="gotermbean.goParentTerm != null "><s:property value="gotermbean.goParentTerm"/></s:if></td>
 															</tr>
@@ -202,7 +204,7 @@
 											</div>
 						
 											<div id="association" class="tab-pane" role="tabpanel">
-												<iframe id="idgbframe1"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getAssociation?param=<s:property value='gotermbean.traitid' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+												<iframe id="idgbframe1"  height="780" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 												</iframe>
 												<div class="clearfix"></div>
 											</div>
@@ -210,14 +212,14 @@
 										
 						
 											<div id="study" class="tab-pane" role="tabpanel">
-												<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="/gvk/browse/getStudy?param=<s:property value='gotermbean.traitid' />" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
+												<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
 												</iframe>
 												<div class="clearfix"></div>
 											</div>
 						
 											<div id="publication" class="tab-pane" role="tabpanel">
 											
-												<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getPublication?param=<s:property value='gotermbean.traitid' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+												<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 												</iframe>
 												<div class="clearfix"></div>
 											</div>
@@ -250,6 +252,34 @@
 
 <script type="text/javascript" language="javascript">
 loadgochildterm();
+
+$('#myTabs a[href="#association"]').click(function (e) {
+		  e.preventDefault();
+		  var traitid= $("#idtrait").val();
+		  $("#idgbframe1").attr("src","/gvk/browse/getAssociation?param="+traitid);
+		  $(this).tab('show');
+		  
+})
+
+
+$('#myTabs a[href="#study"]').click(function (e) {
+		  e.preventDefault();
+		   var traitid= $("#idtrait").val();
+		  $("#idgbframe3").attr("src","/gvk/browse/getStudy?param="+traitid);
+		  $(this).tab('show');
+		  
+})
+
+$('#myTabs a[href="#publication"]').click(function (e) {
+		  e.preventDefault();
+		   var traitid= $("#idtrait").val();
+		  $("#idgbframe4").attr("src","/gvk/browse/getPublication?param="+traitid);
+		  $(this).tab('show');
+		  
+})
+
+
+
 function loadgochildterm(){
 
 		//$('#godata').data('jstree', false).empty();
@@ -313,13 +343,13 @@ function loadgochildterm(){
 						 	$("#idcurrentterm").html(value.gotermbean.goterm);
 						 	$("#idterm").html(value.gotermbean.goterm);
 							$("#idgoid").html(value.gotermbean.goacc);
+							$("#idtrsubclass").css("display","");
 							$("#idparentterm").html(value.gotermbean.goParentTerm);
 							$("#idassociationcount").html(value.gotermbean.associationCount);
 							$("#idstudycount").html(value.gotermbean.studyCount);
 							$("#idpapercount").html(value.gotermbean.paperCount);
-							$("#idgbframe1").attr("src","/gvk/browse/getAssociation?param="+value.gotermbean.traitid);
-							$("#idgbframe3").attr("src","/gvk/browse/getStudy?param="+value.gotermbean.traitid);
-							$("#idgbframe4").attr("src","/gvk/browse/getPublication?param="+value.gotermbean.traitid);
+							$("#idtrait").val(value.gotermbean.traitid);
+							
 							
 						 }
 						 
@@ -379,7 +409,9 @@ function loadgochildterm(){
 			$("#"+e.id+"_annotations").remove();
 			//console.log("e.data.annotationLabel =" + e.data.annotationLabel+",e.id="+e.id);
 			if(e.data.annotationLabel!=null){
-				var c='<span id="'+e.id+'_annotations" class="annotationLink">(<a href="'+fewiurl+e.data.annotationUrl+'" target="_blank">'+e.data.annotationLabel+"</a>)</span>";
+				//var c='<span id="'+e.id+'_annotations" class="annotationLink">(<a href="'+fewiurl+e.data.annotationUrl+'" target="_blank">'+e.data.annotationLabel+"</a>)</span>";
+				var c='<span id="'+e.id+'_annotations" class="annotationLink">('+e.data.annotationLabel+')</span';
+				
 				if(e.data.annotationUrl==null){
 					c='<span id="'+e.id+'_annotations" class="annotationLink"> ('+e.data.annotationLabel+")</span>";
 				}

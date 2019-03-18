@@ -35,8 +35,9 @@
             <result name="error"></result>
         </action>
 
-        <action name="">
-
+        <action name="fuzzyVariationSearch" class="searchAction" method="execFuzzySearchVariationFunc">
+            <result name="success">/pages/search/variation_list_result.jsp</result>
+            <result name="error"></result>
         </action>
 
     </package>
