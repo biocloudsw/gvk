@@ -1,12 +1,18 @@
 package cn.big.gvk.action;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 import cn.big.gvk.po.*;
 import cn.big.gvk.service.IBaseService;
 import cn.big.gvk.util.Page;
 import com.opensymphony.xwork2.ActionSupport;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> origin/master
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +20,7 @@ import java.util.Map;
 public class StaticAction extends ActionSupport {
     private IBaseService baseService;
     private List<StatisticABean> statisticAList;
+<<<<<<< HEAD
     private List<PublicationBean> pubBList;
     /*private List<String> pubYear; */
     private List<String> pubYear2;
@@ -26,10 +33,17 @@ public class StaticAction extends ActionSupport {
         this.statisticAList = (List<StatisticABean>) baseService.findResultList("cn.big.gvk.dm.Statistic.selectAllStatisticA", null);
 
 
+=======
+
+    public String execStaticA(){
+
+        this.statisticAList = (List<StatisticABean>) baseService.findResultList( "cn.big.gvk.dm.Statistic.selectAllStatisticA", null);
+>>>>>>> origin/master
         return SUCCESS;
     }
 
 
+<<<<<<< HEAD
     public String execStaticB(){
         List<PublicationBean> pubYear =(List<PublicationBean>) baseService.findResultList("cn.big.gvk.dm.Statistic.selectPubStatisticB", null);
         pubYear2 = new ArrayList<String>();
@@ -43,6 +57,8 @@ public class StaticAction extends ActionSupport {
 
         return SUCCESS;
     }
+=======
+>>>>>>> origin/master
     public void setBaseService(IBaseService baseService) {
         this.baseService = baseService;
     }
@@ -50,6 +66,7 @@ public class StaticAction extends ActionSupport {
     public  List<StatisticABean> getStatisticAList(){return statisticAList;}
     public void setStatisticAList(List<StatisticABean> statisticAList){this.statisticAList=statisticAList;}
 
+<<<<<<< HEAD
     public List<PublicationBean> getPubBList(){return pubBList;}
     public void  setPubBList(List<PublicationBean> pubBList){this.pubBList=pubBList;}
 
@@ -67,3 +84,7 @@ public class StaticAction extends ActionSupport {
         this.yearCount = yearCount;
     }
 }
+=======
+
+}
+>>>>>>> origin/master

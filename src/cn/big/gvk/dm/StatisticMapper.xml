@@ -6,12 +6,17 @@
     <resultMap id="StatisticMap" type="cn.big.gvk.po.StatisticABean">
         <result property="st1Id" column="st1_id"/>
         <result property="orgId" column="org_id"/>
+<<<<<<< HEAD
         <result property="stdNo" column="std_no"/>
+=======
+        <result property="sdNo" column="sd_no" />
+>>>>>>> origin/master
         <result property="pbNo" column="pb_no" />
         <result property="ttNo" column="tt_no" />
         <result property="asNo" column="as_no" />
     </resultMap>
 
+<<<<<<< HEAD
     <resultMap  id="PublicationMap"  type="cn.big.gvk.po.PublicationBean">
         <id property="paperId" column="paper_id"/>
         <result property="pmid" column="pmid"/>
@@ -33,3 +38,10 @@
       select year(pub_year) as yeareach, count(*) as publication_count from publication group by year(pub_year)
     </select>
 </mapper>
+=======
+    <select id="selectAllStatisticA" resultMap="StatisticMap">
+			select * from statistic_a
+	</select>
+
+</mapper>
+>>>>>>> origin/master
