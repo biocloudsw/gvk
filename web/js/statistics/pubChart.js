@@ -1,8 +1,8 @@
 $.ajax({
-    url: "/gvk/statistics/pub",
+    url: "/gvk/statisticsajax/gotoPubChartajax",
     type: "GET",
     success: function (data) {
-        var myChart = echarts.init(document.getElementById('pub'));
+        var myChart = echarts.init(document.getElementById('pubChart'));
 
         option = {
             tooltip: {},
@@ -33,7 +33,7 @@ $.ajax({
 
                 nameGap: 30,
                 name: "Year",
-                data: data.year,
+                data: data.pubYear2,
                 // axisLabel:{
                 //     interval: 0,
                 //     rotate: 30,
@@ -59,7 +59,7 @@ $.ajax({
                 // }
             },
             series: [{
-                data: data.year_count,
+                data: data.yearCount,
                 type: 'line',
                 clickable : true,
                 symbolSize: 10,

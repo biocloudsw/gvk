@@ -126,21 +126,41 @@
           
         <div class="col-md-12 col-sm-12" align="left" style="padding: 20px;">
             <h4><b>View Species specific G2P information</b></h4>
-            <select id="speciesG2P" name="" class="form-control" onChange="">
+            <select id="speciesG2P" name="" class="form-control" onChange="show()">
                 <option value="defualt" selected="selected">----- Select a species -----</option>
-                <option>Human</option>
-                <option>Mouse</option>
-                <option>Dog</option>
+                <option value="cotton">Gossypium hirsutum (Cotton Ghir.BGI)</option>
+                <option value="mei">Prunus mume (Japanese apricot P.mume_V1.0)</option>
+                <option value="maize">Zea mays (Maize RefGen_v4)</option>
+                <option value="rapeseed"> Brassica napus (Rape seed Bra_napus_v2.0)</option>
+                <option value="rice">Oryza sativa (Rice IRGSP1.0)</option>
+                <option value="sorghum">Sorghum bicolor (Sorghum Sbiv3.1)</option>
+                <option value="soybean">Glycine max (Soybean Wm82.a2.v1)</option>
             </select>
         </div>
           
       </div>
 </div>
 
+<script type="text/javascript" language="JavaScript">
+    function show(){
+        var selValue = document.getElementById("speciesG2P").value;
+        if(selValue=="cotton"){
+            window.location='/gvk/pages/statistics/species/cotton.jsp';
+        }else if(selValue=="mei") {
+            window.location = "/gvk/pages/statistics/species/mei.jsp";
+        }else if(selValue=="maize"){
+            window.location ="/gvk/pages/statistics/species/maize.jsp";
+        }
+    }
+</script>
+
+
 <script type="text/javascript" language="javascript">
   var odiv = document.getElementById('');
   addClass(odiv, 'active');
 </script>
+
+
 
 </body>
 </html>

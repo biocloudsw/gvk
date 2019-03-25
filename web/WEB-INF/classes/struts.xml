@@ -118,14 +118,26 @@
 
     <package name="statistic" namespace="/statistics" extends="struts-default">
         <action name="gotoStatic" class="StaticAction" method="execStaticA">
-            <result name="success">/pages/statistics/statistics.jsp</result>
+            <result name="success">/pages/statistics/mainCount.jsp</result>
             <result name="error"></result>
         </action>
+
+        <action name="gotoStaticD" class="StaticAction" method="execStaticD">
+            <result name="success">/pages/statistics/traitCount.jsp</result>
+            <result name="error"></result>
+        </action >
+
     </package>
 
     <package name="statisticajax" namespace="/statisticsajax" extends="json-default">
-        <action name="gotoStaticajax" class="StaticAction" method="execStaticB">
+        <action name="gotoPubChartajax" class="StaticAction" method="execStaticB">
+            <result name="success" type="json"></result>
+        </action>
+
+        <action name="gototraitChart" class="StaticAction" method="execStaticC">
             <result name="success" type="json"></result>
         </action>
     </package>
+
+
 </struts>

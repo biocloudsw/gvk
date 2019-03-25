@@ -21,8 +21,9 @@
        			</span>
        			<span style="font-size: 24px; color: #555555;">Atlas</span>
        		</a>
-       		
-       		<span class="dropdown">
+
+			<!--tiandm 20190320 -->
+       		<!--span class="dropdown">
                 <a id="logo-dropdownMenu" type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="margin-top: 15px; margin-right: 15px;">
                     <i class="glyphicon glyphicon-collapse-down" style="color: white;"></i>
                 </a>
@@ -34,7 +35,8 @@
                         <a role="menuitem" tabindex="-1">Plants</a>
                     </li>
                 </ul>
-            </span>
+            </span -->
+
 	      </div>
 	
 	      <!-- Nav tabs -->
@@ -52,6 +54,7 @@
 	          		Browser
 	          	</a>
 	          </li>
+
 	          <li id="nav-tab3">
 	         	 <a href="/gvk/pages/download/download.jsp">
 	         		 <span class="glyphicon glyphicon-save"></span>
@@ -59,7 +62,7 @@
 	         	 </a>
 	          </li>
 	          <li id="nav-tab4">
-	          	<a href="/gvk/statistics/gotoStatic">
+	          	<a href="/gvk/pages/statistics/statistics.jsp">
 	          		<span class="glyphicon glyphicon-signal"></span>
 	          		Statistics
 	          	</a>
