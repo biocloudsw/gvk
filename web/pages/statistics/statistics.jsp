@@ -25,7 +25,7 @@
 
     <script src="/gvk/js/jquery-3.2.1.min.js"></script>
     <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/gvk/js/headerfooter.js"></script>
+
     <script src="/gvk/js/common.js"></script>
 
     <script src="/gvk/js/echarts.js"></script>
