@@ -33,17 +33,44 @@
 		on d.g_id=b.g_id
 		where 1=1
 		<if test="searchParam != null ">
-			and d.map_gene_id like #{searchParam}  or d.map_gene_symbol like #{searchParam}
+			and d.map_gene_id like CONCAT('%',#{searchParam},'%')  or d.map_gene_symbol like CONCAT('%',#{searchParam},'%')
 		</if>
 		<if test="species != null ">
 			and a.org_id=#{species}
+		</if>
+		<if test="gid != null ">
+		  and b.g_id=#{gid}
+        </if>
+
+		<if test="traitlist != null ">
+			and a.trait_id in
+			<foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="pval != null ">
+			and a.p_value ${psitu} #{pval}
+		</if>
+
+		<if test=" p1 != null">
+			limit ${p1},${p2}
 		</if>
 
 	</select>
 
 
 	<select id="selectMapGeneCountByPosition" resultMap="MapGeneMap">
-		  select count(distinct a.g_id) as gene_count from genotype_annotate_gene a inner join genotype b
+		  select
+			<choose>
+				<when test="count != null">
+					count(distinct a.g_id) as gene_count
+				</when>
+				<otherwise>
+					distinct a.g_id
+				</otherwise>
+			</choose>
+
+		  from genotype_annotate_gene a inner join genotype b
 		  on a.genotype_id=b.genotype_id where 1=1 and b.var_id is not null
 			<if test="chrom != null ">
 				and b.chrom=#{chrom}
@@ -54,6 +81,33 @@
 			<if test="endpos != null ">
 				and b.end_pos &lt;=#{endpos}
 			</if>
+
+        <if test="gwas != null">
+            and b.genotype_id in ( select genotype_id from gwas_association d where 1=1
+        </if>
+
+        <if test="species != null ">
+            and d.org_id=#{species}
+        </if>
+        <if test="traitlist != null ">
+            and d.trait_id in
+            <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pval != null ">
+            and d.p_value ${psitu} #{pval}
+        </if>
+        <if test="gwasend != null ">
+            )
+        </if>
+
+
+
+
+            <if test=" p1 != null">
+                limit ${p1},${p2}
+            </if>
 
 	</select>
 

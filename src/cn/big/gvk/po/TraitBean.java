@@ -3,7 +3,7 @@ package cn.big.gvk.po;
 public class TraitBean {
     private int traitId;
     private String traitName;
-    private String reportTraitName;
+    private String reportTraitName; // means table trait
 
     public String getReportTraitName() {
         return reportTraitName;

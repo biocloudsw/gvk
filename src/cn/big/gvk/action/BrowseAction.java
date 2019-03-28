@@ -21,6 +21,7 @@ public class BrowseAction extends ActionSupport {
 
     private int param;
     private String param1;
+    private String nameStartsWith;
 
 
     private List<PublicationBean> publicationList;
@@ -32,6 +33,11 @@ public class BrowseAction extends ActionSupport {
     private GenotypeBean genotypeBean;
 
     private List<ItemCount> itemCountList;
+
+    private List<TraitBean> traitBeanList;
+
+    private List<SearchWordBean> wordList;
+
 
     /***********************************
      * get publication information by traitid
@@ -104,6 +110,55 @@ public class BrowseAction extends ActionSupport {
                 }
             }
         }
+        return SUCCESS;
+    }
+
+
+    /****************************************
+     * this is used to get publication by genotype id
+     * @return
+     */
+    public String execBrowsePublicationByGenotypeFunc(){
+        Map cmap = new HashMap();
+        cmap.put("genotypeId", param) ;
+        if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("species", param1) ;
+        }
+
+        this.publicationList = (List<PublicationBean>)baseService.findResultList("cn.big.gvk.dm.publication.selectPubByGenotypeId",cmap);
+        if(this.publicationList  != null){
+            for(PublicationBean pubbean: publicationList){
+                GwasAssociationBean gbean = (GwasAssociationBean)  baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectAssociationCountByPubid",pubbean.getPaperId()) ;
+                if(gbean != null ){
+                    pubbean.setGwasCount(gbean.getGwasCount());
+                }
+            }
+        }
+
+        //get the publication for each species
+        List<OrganismBean> orglist =(List<OrganismBean> ) baseService.findResultList("cn.big.gvk.dm.organism.selectAllOrganism",null);
+        if(orglist != null && orglist.size()>0){
+            itemCountList = new ArrayList<ItemCount>();
+
+            for(OrganismBean org : orglist){
+
+                Map countmap = new HashMap();
+                countmap.put("species",org.getOrgId());
+                countmap.put("genotypeId",this.param);
+
+                //publication count
+                PublicationBean publication = (PublicationBean)baseService.findObjectByObject("cn.big.gvk.dm.publication.selectPubCountByAnGenotypeId",countmap);
+                if (publication != null && publication.getPublicationCount()>0){
+                    ItemCount tb = new ItemCount();
+                    tb.setId(org.getOrgId());
+                    tb.setName(org.getCommonName());
+                    tb.setCount(publication.getPublicationCount());
+                    itemCountList.add(tb);
+
+                }
+            }
+        }
+
         return SUCCESS;
     }
 
@@ -197,6 +252,68 @@ public class BrowseAction extends ActionSupport {
                 if(gbean != null ){
                     study.setGwasCount(gbean.getGwasCount());
                 }
+            }
+        }
+        return SUCCESS;
+    }
+
+    /*****************************************
+     * this is used to get study informaiton by genotype id
+     * @return
+     */
+    public String execBrowseStudyByGenotypeFunc(){
+        Map cmap = new HashMap();
+        cmap.put("genotypeId",param);
+        if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("species",param1);
+        }
+
+        this.studyList = (List<StudyBean>) baseService.findResultList("cn.big.gvk.dm.study.selectStudyByGenotypeId",cmap);
+
+
+        if(this.studyList != null && this.studyList.size() >0 ){
+            System.out.println("=============studycount=" +this.studyList.size() );
+
+
+            for(StudyBean study: studyList){
+                /////////////need to modify table gwas_genotype_tech
+                List<GenotypeTechBean> glist = baseService.findResultList("cn.big.gvk.dm.study.selectGenotypeTchByGenotypeid",param);
+                String gtype = "";
+                if(glist != null && glist.size() >0 ){
+                    for(GenotypeTechBean gbean : glist){
+                        gtype += gbean.getTechName()+"," ;
+                    }
+                    gtype = gtype.substring(0, gtype.length() -1 );
+                }
+                study.setTechName(gtype);
+
+                GwasAssociationBean gbean = (GwasAssociationBean)  baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectAssociationCountByStudyid",study.getStudyId()) ;
+                if(gbean != null ){
+                    study.setGwasCount(gbean.getGwasCount());
+                }
+            }
+        }
+
+        //here,need to return the study count for each species
+        List<OrganismBean> orglist =(List<OrganismBean> ) baseService.findResultList("cn.big.gvk.dm.organism.selectAllOrganism",null);
+        if(orglist != null && orglist.size()>0){
+            itemCountList = new ArrayList<ItemCount>();
+
+            for(OrganismBean org : orglist){
+
+                Map countmap = new HashMap();
+                countmap.put("species",org.getOrgId());
+                countmap.put("genotypeId",this.param);
+
+                GwasAssociationBean tg_bean1 = (GwasAssociationBean)baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectStudyCountByGenotypeid",countmap);
+                if(tg_bean1 != null && tg_bean1.getGwasCount() > 0 ){
+                    ItemCount tb = new ItemCount();
+                    tb.setId(org.getOrgId());
+                    tb.setName(org.getCommonName());
+                    tb.setCount(tg_bean1.getGwasCount());
+                    itemCountList.add(tb);
+                }
+
             }
         }
         return SUCCESS;
@@ -332,6 +449,8 @@ public class BrowseAction extends ActionSupport {
         Map cmap = new HashMap();
         cmap.put("genotypeid",param);
         if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("gwas","gwas") ;
+            cmap.put("gwasend","gwasend") ;
             cmap.put("species",param1);
         }
 
@@ -344,20 +463,21 @@ public class BrowseAction extends ActionSupport {
             List genotypelist = new ArrayList();
             genotypelist.add(genotypeBean.getGenotypeId()) ;
 
-            Map t = new HashMap();
-            t.put("genotypelist",genotypelist);
-            List<GenotypeAnnotateGeneView> annotateview = baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeById",t);
+
+            List<GenotypeAnnotateGeneView> annotateview = baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeById",genotypeBean.getGenotypeId());
             if(annotateview != null && annotateview.size()>0 ){
                 //here we need to filter the result
                 Map filtermap = new HashMap();
                 for(GenotypeAnnotateGeneView tview : annotateview){
                     String fkey = tview.getMapGeneId()+"_"+tview.getConseqtype();
+                    System.out.println("============"+fkey);
                     if(filtermap.containsKey(fkey) == false){
                         filtermap.put(fkey,tview);
                     }
                 }
 
                 if(filtermap.size()>0){
+
                     List<GenotypeAnnotateGeneView>  alist = new ArrayList<GenotypeAnnotateGeneView>();
                     Iterator it = filtermap.entrySet().iterator();
                     while(it.hasNext()){
@@ -370,12 +490,66 @@ public class BrowseAction extends ActionSupport {
                 }
 
 
+
+
+
             }
 
+            System.out.println("============genotypeBean="+genotypeBean.getGenotypeId());
+
+            //get report trait
+            List<GenotypeBean>  tmplst = (List <GenotypeBean> )  baseService.findResultList("cn.big.gvk.dm.Genotype.selectTraitNameByGenotype",genotypeBean.getGenotypeId());
+            if(tmplst != null ){
+                String tmps="";
+                for(GenotypeBean tmp: tmplst){
+                    tmps += tmp.getTrait()+"|";
+                }
+                if(tmps.length()>0){
+                    tmps = tmps.substring(0,tmps.length()-1) ;
+                }
+
+                System.out.println("report reports===================="+tmps);
+                genotypeBean.setTrait(tmps);
+            }
+
+            //get  trait (term)
+              /*  List<TermInformationBean>  tmplst1 = (List <TermInformationBean> )  baseService.findResultList("cn.big.gvk.dm.Term.selectReportTraitByGenotype",genotypeBean.getGenotypeId());
+                if(tmplst1 != null ){
+                    String tmps="";
+                    for(TermInformationBean tmp: tmplst1){
+                        tmps += tmp.getTermName()+"|";
+                    }
+                    if(tmps.length()>0){
+                        tmps = tmps.substring(0,tmps.length()-1) ;
+                    }
+                    genotypeBean.setReportTrait(tmps);
+                }*/
 
 
 
+            //find association count
+            GwasAssociationBean gwas = (GwasAssociationBean) baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectAssociationCountByGenotypeid",genotypeBean.getGenotypeId());
+            if(gwas != null){
+                genotypeBean.setTraitCount(gwas.getGwasCount());
+            }
 
+            //find studycount
+            cmap.clear();
+            cmap.put("genotypeId", genotypeBean.getGenotypeId());
+            if(this.param1 != null && this.param1.equals("all") == false){
+                cmap.put("species",param1);
+            }
+
+            GwasAssociationBean tg_bean1 = (GwasAssociationBean)baseService.findObjectByObject("cn.big.gvk.dm.GwasAssociation.selectStudyCountByGenotypeid",cmap);
+            if(tg_bean1 != null ){
+                genotypeBean.setStudyCount(tg_bean1.getGwasCount());
+            }
+
+            //find publication count
+            PublicationBean pubbean = (PublicationBean) baseService.findObjectByObject("cn.big.gvk.dm.publication.selectPubCountByGenotypeId",cmap);
+            if(pubbean != null ){
+                genotypeBean.setPublicationCount(pubbean.getPublicationCount());
+            }
         }
 
         return SUCCESS;
@@ -522,6 +696,106 @@ public class BrowseAction extends ActionSupport {
     }
 
 
+    /***************************************
+     *this is used to get association data by genotype id
+     * @return
+     */
+    public String execGetGWASByGenotypeFunc(){
+        Map t = new HashMap();
+        t.put("genotypeId",this.param) ;
+
+        this.gwasAssociationViewList = (List<GwasAssociationView>) baseService.findResultList("cn.big.gvk.dm.GwasAssociation.selectGwasViewByVariant",t);
+        if(this.gwasAssociationViewList != null && this.gwasAssociationViewList.size() > 0 ){
+            for(GwasAssociationView gview : gwasAssociationViewList){
+
+                //map gene
+                List<GenotypeAnnotateGeneView>  gagvlist = (List<GenotypeAnnotateGeneView>)baseService.findResultList("cn.big.gvk.dm.Genotype.selectGenotypeById",this.param);
+
+                List<GenotypeAnnotateGeneView> ttlist = new ArrayList<GenotypeAnnotateGeneView>();
+                if(gagvlist != null ){
+                    Map gmap = new HashMap();
+
+                    for(GenotypeAnnotateGeneView gagv: gagvlist){
+                        String key = gagv.getMapGeneId()+","+gagv.getConseqtype();
+                        if(gmap.get(key) == null ){
+                            ttlist.add(gagv);
+                            gmap.put(key,key);
+                        }
+                    }
+                    gview.setGenotypeAnnotateViewList(ttlist);
+
+                }
+
+
+
+                //report gene
+
+                List<ReportGeneBean>  grglist = (List<ReportGeneBean>)baseService.findResultList("cn.big.gvk.dm.Genotype.selectReportGeneByGenotypeId",this.param);
+                if(grglist != null ){
+                    String s = "";
+                    for(ReportGeneBean grg: grglist){
+                        if(grg.getReportGeneId() != null ){
+                            s += grg.getReportGeneId();
+                        }
+                        if(grg.getEntrezGeneSymbol() != null ){
+                            s+= "( "+grg.getEntrezGeneSymbol()+" );";
+                        }
+                    }
+                    if(s.length()>0){
+                        s= s.substring(0,s.length()-1);
+                    }
+                    gview.setGwasReportGene(s);
+                }
+
+            }
+        }
+
+        return SUCCESS;
+    }
+
+    /***********************************
+     * this is used to filter trait name
+     * @return
+     */
+    public String execBrowseTraitNameByOrganism(){
+        Map cmap = new HashMap();
+        if(this.param1 != null && this.param1.equals("all") == false){
+            cmap.put("species", param1) ;
+        }
+
+        this.traitBeanList = (List<TraitBean>)baseService.findResultList("cn.big.gvk.dm.ReportTrait.selectReportTraitByOrganism",cmap);
+        return SUCCESS;
+    }
+
+
+    /*********************************************
+     * this is used to get search word
+     * @return
+     */
+
+    public String execGetSearchWordFunc(){
+
+        Map map = new HashMap();
+        map.put("term", this.nameStartsWith) ;
+        this.wordList = (List<SearchWordBean>)baseService.findResultList("cn.big.gvk.dm.searchWord.selectSearchWordByOrganism",map);
+        return SUCCESS;
+    }
+
+    public List<SearchWordBean> getWordList() {
+        return wordList;
+    }
+
+    public void setWordList(List<SearchWordBean> wordList) {
+        this.wordList = wordList;
+    }
+
+    public List<TraitBean> getTraitBeanList() {
+        return traitBeanList;
+    }
+
+    public void setTraitBeanList(List<TraitBean> traitBeanList) {
+        this.traitBeanList = traitBeanList;
+    }
 
     public int getParam() {
         return param;
@@ -589,5 +863,21 @@ public class BrowseAction extends ActionSupport {
 
     public void setItemCountList(List<ItemCount> itemCountList) {
         this.itemCountList = itemCountList;
+    }
+
+    public GenotypeBean getGenotypeBean() {
+        return genotypeBean;
+    }
+
+    public void setGenotypeBean(GenotypeBean genotypeBean) {
+        this.genotypeBean = genotypeBean;
+    }
+
+    public String getNameStartsWith() {
+        return nameStartsWith;
+    }
+
+    public void setNameStartsWith(String nameStartsWith) {
+        this.nameStartsWith = nameStartsWith;
     }
 }

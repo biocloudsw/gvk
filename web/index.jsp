@@ -15,10 +15,11 @@
  
   <link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/gvk/css/common.css" rel="stylesheet" />
-  
+    <link href="/gvk/js/jquery-ui.css" rel="stylesheet" />
   <script src="/gvk/js/jquery-3.2.1.min.js"></script>
+    <script src="/gvk/js/jquery-ui.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/gvk/js/headerfooter.js"></script>
+
   <script src="/gvk/js/common.js"></script>
 
   <title>GWAS Atlas</title>
@@ -26,7 +27,7 @@
 </head>
   
 <body>
-<div class="container-fluid">
+<div class="container">
 	
    <jsp:include page="/inc/header.jsp" />
     
@@ -34,9 +35,8 @@
 		<div class="col-md-12">
 			
             <!-- Quick Search -->
-            <div class="row">
-                <div class="col-md-12">
-                    <form action="/gvk/fuzzySearch" method="post" class="form-inline" style="margin-bottom: 0px; text-align: center;padding-top:20px;padding-bottom:20px;" role="form">
+        
+                    <form action="/gvk/fuzzySearch" method="post"  class="form-inline"  style="margin-bottom: 0px; text-align: center;padding-top:20px;padding-bottom:20px;" role="form">
                         <div class="form-group">
                             <label>Search:&nbsp;</label>
                             <select id="search-situ-type" name="searchSpecies" class="form-control" onChange="chooseSearch()">
@@ -58,21 +58,24 @@
                                     </button>
                                 </span>
                             </div>
+							<div style="text-align:left; padding-top:5px;">
                             <span style="padding-left: 10px; color: grey;">
-                                e.g. <a href="#">Carboxy*</a>, <a href="#">chr1</a>
+                                e.g. <a href="/gvk/fuzzySearch?searchParam=plant height&searchSpecies=all">plant height</a>, <a href="/gvk/fuzzySearch?searchParam=LOC100281588&searchSpecies=all">LOC100281588</a>, <a href="/gvk/fuzzySearch?searchParam=chr1:14702150-37601000&searchSpecies=all">chr1:14702150-37601000</a>
                             </span>
+							</div>
                         </div>
                     </form>
-                </div>
-            </div>
+          
             
 		</div>
 	</div>
   
 	<!-- Content -->
-      <div class="row" style="margin: 30px 15px 0px 15px;" align="center">
+      <div class="row" style="padding: 30px 15px 0px 15px;" align="center">
+	  <div class="col-md-12">
       	<h1><b>GWAS</b> <span style="color: #777777;">Atlas</span></h1>
         <p style="color: grey;">The NHGRI-EBI Catalog of published genome-wide association studies，NNNNNNNNNNNNNNNN NNNNNNNNN</p>
+		</div>
       </div>
       
       
@@ -137,10 +140,7 @@
       </div>
 </div>
 
-<script type="text/javascript" language="javascript">
-  var odiv = document.getElementById('');
-  addClass(odiv, 'active');
-</script>
+ <script src="/gvk/js/searchac.js"></script>
 
 </body>
 </html>

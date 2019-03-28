@@ -11,11 +11,34 @@
     <package name="default" namespace="/" extends="struts-default">
 
         <action name="fuzzySearch" class="searchAction" method="execFuzzySearchFunc">
-            <result name="trait" type="chain">fuzzyTraitSearch</result>
+            <result name="trait" type="chain">customwordSearch</result>
             <result name="gene" type="chain">fuzzyGeneSearch</result>
-            <result name="variation" type="chain">fuzzyVariationSearch</result>
+            <result name="variation" type="chain">rangeSearch</result>
             <result name="success" >/pages/search/success_list.jsp</result>
             <result name="error"></result>
+        </action>
+
+
+        <action name="customwordSearch" class="searchAction" method="execFuzzySearchCustomWordFunc">
+            <result name="success">/pages/search/trait_list_result.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="customwordSearchExport" class="exportAction" method="execFuzzySearchCustomWordFunc">
+        </action>
+
+        <action name="rangeSearchExport" class="exportAction" method="execFuzzySearchRangeFunc">
+        </action>
+
+        <action name="fuzzyVariationSearchExport" class="exportAction" method="execFuzzySearchVariationFunc">
+        </action>
+        <action name="fuzzyTraitSearchExport" class="exportAction" method="execFuzzySearchTraitFunc">
+        </action>
+
+        <action name="fuzzyGeneRangeSearchExport" class="exportAction" method="execFunzzySearchMapGeneByRangeFunc">
+        </action>
+
+        <action name="fuzzyGeneSearchExport" class="exportAction" method="execFunzzySearchMapGeneFunc">
         </action>
 
         <action name="fuzzyTraitSearch" class="searchAction" method="execFuzzySearchTraitFunc">
@@ -35,10 +58,24 @@
             <result name="error"></result>
         </action>
 
+
+        <action name="fuzzyGeneRangeSearch" class="searchAction" method="execFunzzySearchMapGeneByRangeFunc">
+            <result name="success">/pages/search/gene_list_result.jsp</result>
+            <result name="error"></result>
+        </action>
+
+
+
         <action name="fuzzyVariationSearch" class="searchAction" method="execFuzzySearchVariationFunc">
             <result name="success">/pages/search/variation_list_result.jsp</result>
             <result name="error"></result>
         </action>
+
+        <action name="rangeSearch" class="searchAction" method="execFuzzySearchRangeFunc">
+            <result name="success">/pages/search/variation_list_result.jsp</result>
+            <result name="error"></result>
+        </action>
+
 
     </package>
 
@@ -54,16 +91,18 @@
 
 
         <action name="getGenePublication" class="browseAction" method="execBrowsePublicationByMapGeneFunc">
-            <result name="success">/pages/search/publicationResult.jsp</result>
+            <result name="success">/pages/search/publicationGeneResult.jsp</result>
             <result name="error"></result>
         </action>
+
+
         <action name="getGeneStudy" class="browseAction" method="execBrowseStudyByMapGeneFunc">
-            <result name="success">/pages/search/studyResult.jsp</result>
+            <result name="success">/pages/search/studyGeneResult.jsp</result>
             <result name="error"></result>
         </action>
 
         <action name="getGeneAssociation" class="browseAction" method="execGetGWASByMapGeneFunc">
-            <result name="success">/pages/search/associationResult.jsp</result>
+            <result name="success">/pages/search/associationGeneResult.jsp</result>
             <result name="error"></result>
         </action>
 
@@ -81,6 +120,27 @@
             <result name="success">/pages/search/associationResult.jsp</result>
             <result name="error"></result>
         </action>
+
+        <action name="getVariation" class="browseAction" method="execGetVariantDetailFunc">
+            <result name="success">/pages/search/variation_detail.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getVariantAssociation" class="browseAction" method="execGetGWASByGenotypeFunc">
+            <result name="success">/pages/search/associationVariantResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getVariantStudy" class="browseAction" method="execBrowseStudyByGenotypeFunc">
+            <result name="success">/pages/search/studyVariantResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
+        <action name="getVariantPublication" class="browseAction" method="execBrowsePublicationByGenotypeFunc">
+            <result name="success">/pages/search/publicationVariantResult.jsp</result>
+            <result name="error"></result>
+        </action>
+
 
         <action name="plantontology" class="BrowseGOAction" method="execGetGoTermTreeAndGoDetailFunc">
             <result name="success">/pages/browser/browser.jsp</result>
@@ -115,6 +175,26 @@
             <result name="success" type="json"></result>
         </action>
 
+        <action name="filterReportTrait" class="browseAction" method="execBrowseTraitNameByOrganism">
+            <result name="success" type="json"></result>
+        </action>
+
+        <action name="getSearchWord" class="browseAction" method="execGetSearchWordFunc">
+            <result name="success" type="json"></result>
+        </action>
+
     </package>
 
+    <package name="statistic" namespace="/statistics" extends="struts-default">
+        <action name="gotoStatic" class="StaticAction" method="execStaticA">
+            <result name="success">/pages/statistics/statistics.jsp</result>
+            <result name="error"></result>
+        </action>
+    </package>
+
+    <package name="statisticajax" namespace="/statisticsajax" extends="json-default">
+        <action name="gotoStaticajax" class="StaticAction" method="execStaticB">
+            <result name="success" type="json"></result>
+        </action>
+    </package>
 </struts>

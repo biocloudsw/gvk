@@ -13,7 +13,7 @@
 
  <!-- <script src="/gvk/bootstrap/js/bootstrap-select.min.js"></script> -->
   <script src="/gvk/js/common.js"></script>
-  
+    <script src="/gvk/js/headerfooter.js"></script>
   	<script src="/gvk/js/jquery-3.2.1.min.js"></script>
 				<script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
 				<!--<link href="/gvk/css/bootstrap-table.min.css" rel="stylesheet">	
@@ -31,7 +31,7 @@
 </head>
   
 <body>
-<div class="container-fluid">
+<div class="container">
 	
   	<jsp:include page="/inc/header.jsp" />
 	<div id="main-info" class="row">

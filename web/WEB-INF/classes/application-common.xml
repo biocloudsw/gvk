@@ -25,7 +25,7 @@
 		<!--  
 			<value>jdbc:mysql://192.168.118.52:3307/bigd_gvm_20160614_1?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;failOverReadOnly=false</value>
 		-->
-		<value>jdbc:mysql://localhost:3306/big_gwas_atlas_20181221?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;failOverReadOnly=false</value>
+		<value>jdbc:mysql://192.168.118.134:3306/big_gwas_atlas_20181221?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;failOverReadOnly=false</value>
 		
 		</property>
 		<property name="username">
@@ -64,8 +64,7 @@
 	<!-- Actions -->
 	<bean id="searchAction" class="cn.big.gvk.action.SearchAction" scope="prototype"></bean>
 	<bean id="browseAction" class="cn.big.gvk.action.BrowseAction" scope="prototype"></bean>
-	<bean id="BrowseGOAction" class="cn.big.gvk.action.OntologyAction" scope="prototype">
-
-	</bean>
-
+	<bean id="BrowseGOAction" class="cn.big.gvk.action.OntologyAction" scope="prototype"></bean>
+	<bean id="StaticAction" class="cn.big.gvk.action.StaticAction" scope="prototype"></bean> <!-- tiandm 20190306  -->
+	<bean id="exportAction" class="cn.big.gvk.action.ExportAction" scope="prototype"></bean>
 </beans>

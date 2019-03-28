@@ -9,6 +9,11 @@
 		<result property="startPos" column="start_pos"/>
 		<result property="endPos" column="end_pos"/>
 		<result property="genotypeCount" column="genotype_count" />
+        <result property="trait" column="trait_name" />
+        <result property="reportTrait" column="report_trait" />
+		<result property="allele" column="allele" />
+		<result property="minorAllele" column="minor_allele" />
+		<result property="maf" column="maf" />
 	</resultMap>
 
 	<resultMap id="GenotypeAnnotateGeneViewMap" type="cn.big.gvk.po.GenotypeAnnotateGeneView">
@@ -60,6 +65,11 @@
     </select>
 
 
+    <select id="selectReportGeneByGenotypeId" resultMap="ReportGeneMap">
+      select distinct a.report_gene_id,a.entrez_gene_symbol from report_gene a, gwas_association_report_gene b, gwas_association d where a.rpg_id=b.rpg_id and b.ga_id=d.ga_id and d.genotype_id=#{genotypeId}
+    </select>
+
+
 	<select id="selectGenotypeByPos" parameterType="java.util.Map" resultMap="GenotypeMap">
 		select
 		<choose>
@@ -67,7 +77,7 @@
 				count(distinct var_id) as genotype_count
 			</when>
 			<otherwise>
-				genotype_id, var_id,chrom,start_pos,end_pos
+				genotype_id, var_id,chrom,start_pos,end_pos,allele,minor_allele,maf
 			</otherwise>
 		</choose>
 		from genotype where 1=1 and var_id is not null
@@ -83,12 +93,35 @@
 		<if test="genotypeid !=null ">
 			and genotype_id=#{genotypeid}
 		</if>
+
+        <if test="gwas != null ">
+            and genotype_id in ( select genotype_id from gwas_association b where 1=1
+        </if>
+
+        <if test="species != null ">
+            and b.org_id=#{species}
+        </if>
+        <if test="traitlist != null ">
+            and b.trait_id in
+            <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pval != null ">
+            and b.p_value ${psitu} #{pval}
+        </if>
+        <if test="gwasend != null ">
+            )
+        </if>
 		<if test=" p1 != null">
 			limit ${p1},${p2}
 		</if>
 	</select>
 
-
+    <select id="selectTraitNameByGenotype" resultMap="GenotypeMap">
+        select distinct d.trait_name from gwas_association a, genotype b,trait d where a.genotype_id=b.genotype_id and a.trait_id=d.trait_id
+        and b.genotype_id=#{genotypeId}
+    </select>
 
 
 

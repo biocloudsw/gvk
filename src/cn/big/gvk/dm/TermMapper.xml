@@ -50,4 +50,9 @@
 	</select>
 
 
+	<select id="selectReportTraitByGenotype" resultMap="TermInfoMap">
+		select distinct name from gwas_association a,genotype b,trait_map_plant d, term e where a.genotype_id=b.genotype_id and a.trait_id=d.trait_id
+		 and d.term_id =e.term_id and a.term_type='plant_trait_ontology' and b.genotype_id=#{genotypeId}
+	</select>
+
 </mapper>

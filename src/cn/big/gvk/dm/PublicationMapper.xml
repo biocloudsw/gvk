@@ -22,6 +22,15 @@
 		</if>
 	</select>
 
+    <select id="selectPubByGenotypeId" resultMap="PublicationMap">
+        select distinct a.paper_id, a.pmid,a.journal,a.title,a.author,a.pub_year,(select common_name from organism where organism.org_id=b.org_id)  as common_name
+        from publication a inner join gwas_association b on a.paper_id=b.paper_id
+        where b.genotype_id=#{genotypeId}
+        <if test="species != null ">
+            and b.org_id=#{species}
+        </if>
+    </select>
+
 	<select id="selectPubCountByTraitId"  parameterType="java.util.Map" resultMap="PublicationMap">
 		  select count(distinct a.paper_id) as publication_count
 		  from publication a inner join gwas_association b on a.paper_id=b.paper_id
@@ -30,6 +39,26 @@
 		  and b.org_id=#{species}
 		  </if>
 
+	</select>
+
+    <select id="selectPubCountByAnGenotypeId"  parameterType="java.util.Map" resultMap="PublicationMap">
+        select count(distinct a.paper_id) as publication_count
+        from publication a inner join gwas_association b on a.paper_id=b.paper_id
+        where b.genotype_id=#{genotypeId}
+        <if test="species != null ">
+            and b.org_id=#{species}
+        </if>
+
+    </select>
+
+
+	<select id="selectPubCountByGenotypeId" parameterType="java.util.Map" resultMap="PublicationMap">
+		select count(distinct a.paper_id) as publication_count
+		from publication a inner join gwas_association b on a.paper_id=b.paper_id inner join genotype d on d.genotype_id=b.genotype_id
+		where d.genotype_id=#{genotypeId}
+		<if test="species != null ">
+			and b.org_id=#{species}
+		</if>
 	</select>
 
 	<select id="selectPubByGeneId" parameterType="java.util.Map" resultMap="PublicationMap">
@@ -49,6 +78,9 @@
 		 inner join genotype_annotate_gene d on d.genotype_id=b.genotype_id
 		 where d.g_id=#{gId}
 	</select>
+
+
+
 
 
 

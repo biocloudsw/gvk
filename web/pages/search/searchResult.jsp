@@ -22,7 +22,7 @@
 </head>
   
 <body>
-<div class="container-fluid">
+<div class="container">
 	
   	<jsp:include page="/inc/header.jsp" />
 	<div id="main-info" class="row">

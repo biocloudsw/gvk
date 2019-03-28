@@ -3,6 +3,7 @@ package cn.big.gvk.po;
 public class StatisticABean {
     private int st1Id;
     private int orgId;
+    private int stdNo;
     private int sdNo;
     private int pbNo;
     private int ttNo;
@@ -14,8 +15,13 @@ public class StatisticABean {
     public int getOrgId(){return orgId;}
     public void setOrgId(int orgId){this.orgId=orgId;}
 
+
+    public int getStdNo(){return stdNo;}
+    public void setStdNo(int stdNo){this.stdNo=stdNo;}
+
     public int getSnNo(){return sdNo;}
     public void setSnNo(int sdNo){this.sdNo=sdNo;}
+
 
     public int getPbNo(){return pbNo;}
     public void setPbNo(int pbNo){this.pbNo=pbNo;}

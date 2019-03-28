@@ -10,21 +10,27 @@
   <link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
   <link href="/gvk/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
   <link href="/gvk/css/common.css" rel="stylesheet" />
-  
+      <link href="/gvk/js/jquery-ui.css" rel="stylesheet" />
+	  
+	  
   <script src="/gvk/js/jquery-3.2.1.min.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap-select.min.js"></script>
-  <script src="/gvk/js/headerfooter.js"></script>
-  <script src="/gvk/js/common.js"></script>
 
+  <script src="/gvk/js/common.js"></script>
+    <script src="/gvk/js/jquery-ui.js"></script>
+	
+	
+   <script src="/gvk/js/export.js"></script>
   <title>Search Results</title>
   
 </head>
   
 <body>
-<div class="container-fluid">
+<div class="container">
 	
   	<jsp:include page="/inc/header.jsp" />
+
 	<div id="main-info" class="row">
 		<div class="col-md-4">
 			<!-- You are now at... -->
@@ -34,34 +40,7 @@
 			</ol>
 		</div>
 		<div class="col-md-8">
-			<!-- Quick Search -->
-            <div class="row">
-                <div class="col-md-12">
-                    <form action="#" method="post" class="form-inline" style="margin-bottom: 0px; text-align: right;" role="form">
-                        <div class="form-group">
-                            <label>Search:&nbsp;</label>
-                            <select id="search-situ-type" name="searchSituType" class="form-control" onChange="chooseSearch()">
-                                <option value="all-species" selected="selected">All Species</option>
-	        	                <option>Human</option>
-	                        	<option>Mouse</option>
-	        	                <option>Dog</option>
-                            </select>
-                            <label>&nbsp;for&nbsp;</label>
-                            <div class="input-group">
-                                <input type="text" id="search-param" name="searchParam" class="form-control" style="width: 300px;">
-                                <span class="input-group-btn">
-                                    <a id="quick-search-icon" class="btn btn-default" type="submit" value="Search" href="searchResults.html">
-                                        <span class="glyphicon glyphicon-search" style="line-height: 20px;"></span>
-                                    </a>
-                                </span>
-                            </div>
-                            <span style="padding-left: 10px; color: grey;">
-                                e.g. <a href="#">Carboxy*</a>, <a href="#">chx28</a>
-                            </span>
-                        </div>
-                    </form>
-                </div>
-            </div>
+			<jsp:include page="/inc/quickSearch.jsp" flush="true" />
 		</div>
 	</div>
   
@@ -75,132 +54,88 @@
 				 </div>
 				<div id="idResults" class="panel-collapse collapse in">
 					 <div class="panel-body" style="font-size:14px;">
-					 		<h5>Traits:<s:property value="mtraitCount" /></h5>
-							<h5>Genes:<s:property value="mgeneCount" /></h5>
+					 		<h5>Traits: <s:if test="mtraitCount>0"><a href="/gvk/fuzzyTraitSearch?searchParam=<s:property value='searchParam'/>&searchSpecies=<s:property value='searchSpecies'/>&mtraitCount=<s:property value='mtraitCount' />&mgeneCount=<s:property value='mgeneCount' />&searchTrait=<s:property value='searchTrait' />&psitu=<s:property value='psitu' />&pvalue=<s:property value='pvalue' />"><s:property value="mtraitCount" /></a></s:if><s:else>0</s:else></h5>
+							<h5>Genes: <s:if test="mgeneCount>0"><a href="/gvk/fuzzyGeneSearch?searchParam=<s:property value='searchParam'/>&searchSpecies=<s:property value='searchSpecies'/>&mgeneCount=<s:property value='mgeneCount' />&mtraitCount=<s:property value='mtraitCount' />&searchTrait=<s:property value='searchTrait' />&psitu=<s:property value='psitu' />&pvalue=<s:property value='pvalue' />"><s:property value="mgeneCount" /></a></s:if><s:else>0</s:else></h5>
 					 </div>
 				</div>
 			</div> 
 			
-			<div class="panel panel-default">
-				<div class="panel-heading search_condition" data-toggle="collapse" data-target="#idFilter">
-				  <h4 class="panel-title" style="font-size:14px;font-weight:bold;">Filter</h4>
+				<div class="panel panel-default">
+				
+						<jsp:include page="/inc/filter.jsp" />
 				</div>
-				<div id="idFilter" class="panel-collapse collapse in">
-					 <div class="panel-body" style="font-size:13px;">
-					 		 <form>
-					        <div>
-					            <div>Species</div>
-					            <select class="selectpicker form-control" title="Select species" multiple data-live-search="true" data-selected-text-format="count > 3">
-									<option value="1">Human</option>
-									<option value="2">Dog</option>
-									<option value="3">Chicken</option>
-									<option value="4">Rice</option>
-									<option value="5">Sheep</option>                            
-								</select>
-					            <hr>
-					        </div>
-							
-					        <div>
-					            <div>Catalog Trait</div>
-					            <select class="selectpicker form-control" title="Select catalog trait" multiple data-live-search="true" data-selected-text-format="count > 3">
-									<option value="1">Example 1</option>
-									<option value="2">Example 2</option>
-									<option value="3">Example 3</option>
-									<option value="4">Example 4</option>
-									<option value="5">Example 5</option>                            
-								</select>
-					            <hr>
-					        </div>
-					        
-					        <div>
-					            <span>
-					                P value rank
-					                <span class="cancel" id="rank_cancel" hidden="">
-					                    <a><span class="glyphicon glyphicon-remove-circle"></span></a>
-					                </span>
-					            </span>
-					            <div class="input-group">
-					                <span class="input-group-addon">&lt;=</span>
-					                <input type="number" class="form-control">
-					                <span class="input-group-addon">E-5</span>
-					            </div>
-					            <hr>
-					        </div>
-					        
-					        <div class="form-group">
-					            <span>
-					                Study year
-					            </span>
-					            <div class="input-group">
-					                <span class="input-group-addon">from</span>
-					                <input type="number" class="form-control" min="1900" max="2030" id="year_start">
-					                <span class="input-group-addon">to</span>
-					                <input type="number" class="form-control" min="1900" max="2030" id="year_end">
-					            </div>
-					            <hr>
-					        </div>
-					        
-					        <div>
-					            <span>
-					                Association model
-					            </span>
-					            <select class="form-control" style="width: 100%">
-					                <option selected="selected" disabled="disabled" style="display: none"></option>
-					                <option value="1">Example 1</option>
-					                <option value="2">Example 2</option>
-					            </select>
-					            <hr>
-					        </div>
-					        
-					        <div>
-					            <span>
-					                Genotyping technology
-					            </span>
-					            <select class="form-control" style="width: 100%">
-					                <option selected="selected" disabled="disabled" style="display: none"></option>
-					                <option value="1">Example 1</option>
-					                <option value="2">Example 2</option>
-					            </select>
-					            <hr>
-					        </div>
-							
-							<button type="button" class="btn btn-primary" onClick="">Apply</button>
-					   		<button type="button" class="btn btn-info" onClick="">Clear all</button>
-					    </form>
-					 </div>
-				</div>
-			</div> 
-			
-		
-		
-		
-           
+	
+          
         </div>
         
+		
         <div id="result" class="col-md-9" style="padding-top: 15px">
+		<div class="clearfix"></div>
+		  <div class="panel panel-default">
+		  <div class="panel-body" style="padding-top:0px;padding-bottom:0px;" >
+		  	<div >
+					<div style="float:left;">
+						<jsp:include page="/inc/page.jsp" />
+					</div>
+		
+					<div style="float:right; padding-top:10px;">											
+						<div class="export btn-group">
+							<button class="btn btn-default btn-undefined dropdown-toggle" aria-label="export type" title="Export data" data-toggle="dropdown" type="button">
+								<i class="glyphicon glyphicon-export icon-share"></i>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<!--<li role="menuitem" data-type="excel"><a href="javascript:exportmstrait()">MS-Excel</a></li>
+								<li role="menuitem" data-type="csv"><a href="javascript:exportcsvtrait()">CSV</a></li>
+								
+								-->
+								<li role="menuitem" data-type="txt"><a href="javascript:exporttxttrait()">TXT</a></li>
+							</ul>
+						</div>
+					</div>
+				 </div>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+		
 			<s:if test="gwasAssociationList != null ">
 			<s:iterator id="gwasAssociation" value="gwasAssociationList">
-			<div class="panel panel-default">
-				 <div class="panel-body">
+			<div class="panel panel-default" style="margin-top:-5px;">
+				 <div class="panel-body" style=" padding-bottom: 10px;">
 				 
-					<h4><a href="/gvk/browse/getTrait?param=<s:property value='#gwasAssociation.traitId'/>&param1=<s:property value='searchSpecies'/>"><s:property value="#gwasAssociation.traitName"/></a></h4>
+					<h4><a href="/gvk/browse/getTrait?param=<s:property value='#gwasAssociation.traitId'/>&param1=<s:property value='searchSpecies'/>"><s:property value="#gwasAssociation.traitName"/></a> (Trait)</h4>
 					<h5><s:property value="#gwasAssociation.termDefinition"/></h5>
 					<h5>Associations:<span class="label label-default"><s:property value="#gwasAssociation.traitCount"/></span>&nbsp;&nbsp;&nbsp;&nbsp;Studies:<span class="label label-default"><s:property value="#gwasAssociation.gwasCount"/></span></h5>
 				</div>
 			</div>
 			</s:iterator>
 			</s:if>
-			<s:else>
+			<s:if test="mapGeneBeanList != null ">
+						<s:iterator id="mapGeneBean" value="mapGeneBeanList">
+						<div class="panel panel-default">
+							 <div class="panel-body">
+								<h4><a href="/gvk/browse/getMapGene?param=<s:property value='#mapGeneBean.gid'/>"><s:property value="#mapGeneBean.mapGeneId"/></a> (Gene)</h4>
+								<h5>Description:&nbsp;&nbsp;<s:property value="#mapGeneBean.description"/></h5>
+								<h5>Genomic Location:&nbsp;&nbsp;<s:property value="#mapGeneBean.mapGeneChrom"/>:<s:property value="#mapGeneBean.mapGeneStart"/>-<s:property value="#mapGeneBean.mapGeneEnd"/></h5>
+								<h5>Associations:<span class="label label-default"><s:property value="#mapGeneBean.traitCount"/></span>&nbsp;&nbsp;&nbsp;&nbsp;Studies:<span class="label label-default"><s:property value="#mapGeneBean.studyCount"/></span></h5>
+							</div>
+						</div>
+						</s:iterator>
+			</s:if>
+			<s:if test="(gwasAssociationList == null || gwasAssociationList.size()==0 ) and ( gwasAssociationList==null | gwasAssociationList.size()==0 )">
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					There is no results
 				</div>
 			</div>	
-			</s:else>
+			</s:if>
 		</div>
 	</div>
     
 </div>
-
+  <script src="/gvk/js/filter.js"></script>
+  <script type="text/javascript">
+		showTrait();
+	</script>
 </body>
 </html>

@@ -69,7 +69,26 @@
 										<tbody>
 											<s:iterator id="gwasAssociationView" value="gwasAssociationViewList">
 											<tr>
-											<td <s:if test="#gwasAssociationView.genotypeAnnotateViewList!=null and #gwasAssociationView.genotypeAnnotateViewList.size >0 "> rowspan="<s:property value='#gwasAssociationView.genotypeAnnotateViewList.size'/>"</s:if>><a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span></td>
+											<td <s:if test="#gwasAssociationView.genotypeAnnotateViewList!=null and #gwasAssociationView.genotypeAnnotateViewList.size >0 "> rowspan="<s:property value='#gwasAssociationView.genotypeAnnotateViewList.size'/>"</s:if>>
+											<s:if test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Maize" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=5" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:if>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Soybean" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=10" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Rice" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=2" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Cotton" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=22" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Sorghum" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=4" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Rape seed" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=30" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:elseif test='#gwasAssociationView.varId !="" && #gwasAssociationView.speciesCommonName=="Japanese apricot" '>
+											<a href="http://bigd.big.ac.cn/gvm/snp/getSNPDetail?snpname=<s:property value='#gwasAssociationView.varId'/>&chrom=<s:property value='#gwasAssociationView.chrom'/>&position=<s:property value='#gwasAssociationView.startPos'/>&orgId=29" target="_blank"><s:property value="#gwasAssociationView.varId"/></a> <span class="glyphicon glyphicon-share"></span>	</s:elseif>
+											<s:else>
+											
+											</s:else>
+											</td>
+											
 												<td <s:if test="#gwasAssociationView.genotypeAnnotateViewList!=null and #gwasAssociationView.genotypeAnnotateViewList.size >0 "> rowspan="<s:property value='#gwasAssociationView.genotypeAnnotateViewList.size'/>"</s:if>><s:property value="#gwasAssociationView.traitName"/></td>
 												<td <s:if test="#gwasAssociationView.genotypeAnnotateViewList!=null and #gwasAssociationView.genotypeAnnotateViewList.size >0 "> rowspan="<s:property value='#gwasAssociationView.genotypeAnnotateViewList.size'/>"</s:if>><s:property value="#gwasAssociationView.speciesCommonName"/></td>
 												

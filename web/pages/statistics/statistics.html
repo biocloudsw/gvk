@@ -1,0 +1,146 @@
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/gvk/css/jstree/style.min.css" rel="stylesheet" />
+    <link href="/gvk/css/common.css" rel="stylesheet" />
+    <link href="/gvk/js/jquery-ui.css" rel="stylesheet" />
+    <script src="/gvk/js/jquery-3.2.1.min.js"></script>
+    <script src="/gvk/js/jquery-ui.js"></script>
+    <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/gvk/js/jstree.min.js"></script>
+    <script src="/gvk/js/headerfooter.js"></script>
+    <script src="/gvk/js/common.js"></script>
+    <script scr="/gvk/js/echarts.js"></script>
+
+    <title>GWAS Atlas</title>
+
+</head>
+<body>
+<div class="container">
+
+
+    <div id="main-info" class="row">
+        <div class="col-md-12">
+            <!-- You are now at... -->
+            <ol class="breadcrumb">
+                <li><a href="/gvk/index.jsp">GWAS Atlas</a></li>
+                <li class="active">Statistics</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="panel panel-default" style="margin-top: 15px;">
+        <div class="panel-body" style="padding: 15px 25px 15px 25px; ">
+
+            <div class="row" style="padding-top: 15px;">
+                <!-- Table 1 -->
+                <div class="col-md-12">
+                    <h4 style="color: #3482c1;margin-top: 0px" id="main count">Main Count</h4>
+
+                    <table class="table table-hover table-stripped table-bordered" style="width: 1000px;" align="center">
+                        <thead>
+                        <tr>
+                            <td>Species</td>
+                            <td>Studies</td>
+                            <td>Publications</td>
+                            <td>Traits#</td>
+                            <td>Association#</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!-- Figure 1 -->
+                <div class="col-md-6">
+                    <h4 style="color: #3482c1;margin-top: 0px" id="pub title">Publications</h4>
+                    <div  id="main" style="width: 100%;min-height: 350px" >
+                        <script type="text/javascript">
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('main'));
+
+                        // 指定图表的配置项和数据
+                        var option = {
+                        title: {
+                        text: 'ECharts 入门示例'
+                        },
+                        tooltip: {},
+                        legend: {
+                        data:['销量']
+                        },
+                        xAxis: {
+                        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                        },
+                        yAxis: {},
+                        series: [{
+                        name: '销量',
+                        type: 'bar',
+                        data: [5, 20, 36, 10, 10, 20]
+                        }]
+                        };
+
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                        </script>
+                    </div>
+
+
+                </div>
+
+                <!-- Figure 2 -->
+                <div class="col-md-6">
+                    <h4 style="color: #3482c1;margin-top: 0px" id="study title">Studys</h4>
+                    <div id="study" style="width: 100%;min-height: 350px" ></div>
+
+                </div>
+
+                <!-- Table 2 -->
+                <div class="col-md-12">
+                    <h4 style="color: #3482c1;margin-top: 0px" id="trait">Traits</h4>
+                    <table class="table table-hover table-stripped table-bordered" style="width: 1000px;" align="center">
+                        <thead>
+                        <tr>
+                            <td>Trait</td>
+                            <td>Trait Class</td>
+                            <td>Publications</td>
+                            <td>Association#</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="/gvk/js/statistics/pub.js"></script>
+</html>

@@ -57,10 +57,28 @@
 	</select>
 
 
+	<select id="selectStudyByGenotypeId" resultMap="StudyMap">
+		select distinct a.study_id,a.study_acc,a.environment,a.sample_spot,a.sample_year,a.sample_condition,
+		a.species,a.population,a.sample_size,a.tissue,
+		(select abbr_name from associate_model where associate_model.model_id=b.model_id)  as model_name,
+		(select pmid from publication where publication.paper_id=b.paper_id)  as pmid
+		from study a
+		inner join gwas_association b on a.study_id=b.study_id
+		where b.genotype_id=#{genotypeId}
+		<if test="species != null ">
+			and b.org_id=#{species}
+		</if>
+	</select>
+
+
 	<select id="selectGenotypeTchByGwasid" resultMap="GenotypeTechMap">
 		select distinct a.tech_id,a.tech_name from genotype_tech a, gwas_genotype_tech b, gwas_association d
 		where a.tech_id=b.tech_id and b.ga_id=d.ga_id and d.trait_id=#{traitId}
 	</select>
 
 
+	<select id="selectGenotypeTchByGenotypeid" resultMap="GenotypeTechMap">
+		select distinct a.tech_id,a.tech_name from genotype_tech a, gwas_genotype_tech b, gwas_association d
+		where a.tech_id=b.tech_id and b.ga_id=d.ga_id and d.genotype_id=#{genotypeId}
+	</select>
 </mapper>

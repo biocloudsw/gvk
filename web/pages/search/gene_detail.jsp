@@ -10,11 +10,11 @@
   <link href="/gvk/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" />
   <link href="/gvk/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
   <link href="/gvk/css/common.css" rel="stylesheet" />
-  
+    <script src="/gvk/js/headerfooter.js"></script>
   <script src="/gvk/js/jquery-3.2.1.min.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap-select.min.js"></script>
-  <script src="/gvk/js/headerfooter.js"></script>
+
   <script src="/gvk/js/common.js"></script>
 
   <title>Search Results</title>
@@ -22,7 +22,7 @@
 </head>
   
 <body>
-<div class="container-fluid">
+<div class="container">
 	
   	<jsp:include page="/inc/header.jsp" />
 	<div id="main-info" class="row">
@@ -123,14 +123,14 @@
 				
 
 					<div id="study" class="tab-pane" role="tabpanel">
-						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="/gvk/browse/getGeneStudy?param=<s:property value='param' />" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
+						<iframe id="idgbframe3"  height="800" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:800px;">
 						</iframe>
 						<div class="clearfix"></div>
 					</div>
 
 					<div id="publication" class="tab-pane" role="tabpanel">
 					
-						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="/gvk/browse/getGenePublication?param=<s:property value='param' />" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
+						<iframe id="idgbframe4"  height="780" frameBorder="0" width="100%" src="#" style="-ms-zoom:1; overflow:scroll; min-height:780px;">
 						</iframe>
 						<div class="clearfix"></div>
 					</div>
@@ -143,6 +143,32 @@
 	</div>
     
 </div>
+
+<script type="text/javascript" language="javascript">
+	 
+        var param="<s:property value='param' />";
+
+		
+	
+		
+		
+		$('#myTabs a[href="#study"]').click(function (e) {
+		  e.preventDefault()
+		  $("#idgbframe3").attr("src","/gvk/browse/getGeneStudy?param="+param+"&time="+new Date().getTime());
+		  $(this).tab('show');
+		  
+		})
+		
+		$('#myTabs a[href="#publication"]').click(function (e) {
+			e.preventDefault()
+			$("#idgbframe4").attr("src","/gvk/browse/getGenePublication?param="+param+"&time="+new Date().getTime());
+			$(this).tab('show');
+		});
+		
+		
+  
+
+</script>
 
 </body>
 </html>

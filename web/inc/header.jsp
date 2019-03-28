@@ -1,15 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-
+<script src="http://bigd.big.ac.cn/js/headerfooter.js"> </script>
     <!-- Head -->
-    <div class="row" style="margin-top: 1px; padding: 0px; background: #BDD7EE; min-height: 50px;">
-      <div class="col-md-12">
+
+    <div style="margin-top: 1px; padding: 0px; background: #BDD7EE; min-height: 50px;">
+  
       	
    		<!-- Navigation -->
     	<nav class="navbar navbar-default" role="navigation">
-		  <div style="margin-left: auto; margin-right: auto;">
+
 	      <!-- Brand -->
 	      <div class="navbar-header">
-	      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+	      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
@@ -38,8 +39,8 @@
 	      </div>
 	
 	      <!-- Nav tabs -->
-	      <div>
-	        <ul id="navbar-collapse" class="nav navbar-nav">
+	      <div id="navbar-collapse">
+	        <ul  class="nav navbar-nav">
 	          <li id="nav-tab1">
 	          	<a href="/gvk/index.jsp">
 	          		<span class="glyphicon glyphicon-home"></span>
@@ -53,13 +54,13 @@
 	          	</a>
 	          </li>
 	          <li id="nav-tab3">
-	         	 <a>
+	         	 <a href="/gvk/pages/download/download.jsp">
 	         		 <span class="glyphicon glyphicon-save"></span>
 	          		Download
 	         	 </a>
 	          </li>
 	          <li id="nav-tab4">
-	          	<a href="pages/statistics/species.html">
+	          	<a href="/gvk/statistics/gotoStatic">
 	          		<span class="glyphicon glyphicon-signal"></span>
 	          		Statistics
 	          	</a>
@@ -78,8 +79,7 @@
 	          </li>
 	        </ul>
 	      </div>
-	      </div>
+	    
 	    </nav>
     
       </div>
-    </div>

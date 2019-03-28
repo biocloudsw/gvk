@@ -95,6 +95,21 @@
 		</if>
     </select>
 
+    <select id="selectGwasViewByVariant" parameterType="java.util.Map" resultMap="GwasAssociationViewMap">
+        select
+        <choose>
+            <when test="count != null">
+                count(*) as trait_count
+            </when>
+            <otherwise>
+                a.ga_id,a.trait_id,a.genotype_id,(select trait_name from trait where trait.trait_id=a.trait_id) as trait_name,a.rval,a.p_value,b.var_id,b.chrom,b.start_pos,b.end_pos,(select study_acc from study where study.study_id=a.study_id) as study_acc,
+                (select pmid from publication where publication.paper_id=a.paper_id) as pmid,(select common_name from organism where organism.org_id=a.org_id) as common_name,
+                (select version from organism where organism.org_id=a.org_id) as version
+            </otherwise>
+        </choose>
+        from  genotype b inner join gwas_association a  on a.genotype_id=b.genotype_id
+        where b.genotype_id=#{genotypeId}
+    </select>
 
     <select id="selecTraitByFuzzySearch" parameterType="java.util.Map" resultMap="GwasAssociationMap">
         select
@@ -114,6 +129,20 @@
         <if test="species != null ">
             and a.org_id=#{species}
         </if>
+        <if test="traitId != null">
+          and a.trait_id=#{traitId}
+        </if>
+
+		<if test="traitlist != null ">
+			and a.trait_id in
+			<foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="pval != null ">
+			and a.p_value ${psitu} #{pval}
+		</if>
+
 
         <if test=" p1 != null">
             limit ${p1},${p2}
@@ -151,6 +180,8 @@
 			and org_id=#{species}
 		</if>
     </select>
+
+
 
 	<select id="selectStudyCountByGenotypeid" parameterType="java.util.Map" resultMap="GwasAssociationMap">
 		select count(distinct study_id) as gwas_count from gwas_association where genotype_id=#{genotypeId}
