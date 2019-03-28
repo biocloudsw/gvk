@@ -15,11 +15,10 @@
  
   <link href="/gvk/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/gvk/css/common.css" rel="stylesheet" />
-    <link href="/gvk/js/jquery-ui.css" rel="stylesheet" />
+  
   <script src="/gvk/js/jquery-3.2.1.min.js"></script>
-    <script src="/gvk/js/jquery-ui.js"></script>
   <script src="/gvk/bootstrap/js/bootstrap.min.js"></script>
-
+  <script src="/gvk/js/headerfooter.js"></script>
   <script src="/gvk/js/common.js"></script>
 
   <title>GWAS Atlas</title>
@@ -27,7 +26,7 @@
 </head>
   
 <body>
-<div class="container">
+<div class="container-fluid">
 	
    <jsp:include page="/inc/header.jsp" />
     
@@ -35,8 +34,9 @@
 		<div class="col-md-12">
 			
             <!-- Quick Search -->
-        
-                    <form action="/gvk/fuzzySearch" method="post"  class="form-inline"  style="margin-bottom: 0px; text-align: center;padding-top:20px;padding-bottom:20px;" role="form">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="/gvk/fuzzySearch" method="post" class="form-inline" style="margin-bottom: 0px; text-align: center;padding-top:20px;padding-bottom:20px;" role="form">
                         <div class="form-group">
                             <label>Search:&nbsp;</label>
                             <select id="search-situ-type" name="searchSpecies" class="form-control" onChange="chooseSearch()">
@@ -44,7 +44,7 @@
 	        	                <option value="1">Gossypium hirsutum (Cotton Ghir.BGI)</option>
 								<option value="2">Prunus mume (Japanese apricot P.mume_V1.0)</option>
 								<option value="3">Zea mays (Maize RefGen_v4)</option>
-	                        	<option value="4">Brassica napus (Rape seed Bra_napus_v2.0)</option>
+	                        	<option value="4"> Brassica napus (Rape seed Bra_napus_v2.0)</option>
 	        	                <option value="5">Oryza sativa (Rice IRGSP1.0)</option>
 								<option value="6">Sorghum bicolor (Sorghum Sbiv3.1)</option>
 								<option value="7">Glycine max (Soybean Wm82.a2.v1)</option>
@@ -58,24 +58,21 @@
                                     </button>
                                 </span>
                             </div>
-							<div style="text-align:left; padding-top:5px;">
                             <span style="padding-left: 10px; color: grey;">
-                                e.g. <a href="/gvk/fuzzySearch?searchParam=plant height&searchSpecies=all">plant height</a>, <a href="/gvk/fuzzySearch?searchParam=LOC100281588&searchSpecies=all">LOC100281588</a>, <a href="/gvk/fuzzySearch?searchParam=chr1:14702150-37601000&searchSpecies=all">chr1:14702150-37601000</a>
+                                e.g. <a href="#">Carboxy*</a>, <a href="#">chr1</a>
                             </span>
-							</div>
                         </div>
                     </form>
-          
+                </div>
+            </div>
             
 		</div>
 	</div>
   
 	<!-- Content -->
-      <div class="row" style="padding: 30px 15px 0px 15px;" align="center">
-	  <div class="col-md-12">
+      <div class="row" style="margin: 30px 15px 0px 15px;" align="center">
       	<h1><b>GWAS</b> <span style="color: #777777;">Atlas</span></h1>
         <p style="color: grey;">The NHGRI-EBI Catalog of published genome-wide association studies，NNNNNNNNNNNNNNNN NNNNNNNNN</p>
-		</div>
       </div>
       
       
@@ -140,7 +137,10 @@
       </div>
 </div>
 
- <script src="/gvk/js/searchac.js"></script>
+<script type="text/javascript" language="javascript">
+  var odiv = document.getElementById('');
+  addClass(odiv, 'active');
+</script>
 
 </body>
 </html>

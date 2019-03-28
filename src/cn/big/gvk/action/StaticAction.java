@@ -35,7 +35,7 @@ public class StaticAction extends ActionSupport {
 
 
     public String execStaticB(){
-        List<PublicationBean> pubYear =(List<PublicationBean>) baseService.findResultList("cn.big.gvk.dm.statistic.selectPubStatisicB", null);
+        List<PublicationBean> pubYear =(List<PublicationBean>) baseService.findResultList("cn.big.gvk.dm.Statistic.selectPubStatisticB", null);
         pubYear2 = new ArrayList<String>();
         yearCount =new ArrayList<Integer>();
         for(PublicationBean tmp: pubYear){

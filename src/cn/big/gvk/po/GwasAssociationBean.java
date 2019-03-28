@@ -14,6 +14,11 @@ public class GwasAssociationBean {
     private String pvalue;
     private String termDefinition;
     private int gwasCount;
+    private int paperCount;
+
+    public int getPaperCount() { return paperCount; }
+
+    public void setPaperCount(int paperCount) { this.paperCount = paperCount; }
 
     public String getTermDefinition() {
         return termDefinition;

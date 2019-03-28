@@ -4,13 +4,10 @@
 <mapper namespace="cn.big.gvk.dm.statistic">
 
     <resultMap id="StatisticMap" type="cn.big.gvk.po.StatisticABean">
-        <result property="st1Id" column="st1_id"/>
+        <id property="st1Id" column="st1_id"/>
         <result property="orgId" column="org_id"/>
-
         <result property="stdNo" column="std_no"/>
-
         <result property="sdNo" column="sd_no" />
-
         <result property="pbNo" column="pb_no" />
         <result property="ttNo" column="tt_no" />
         <result property="asNo" column="as_no" />
@@ -30,12 +27,47 @@
 
     </resultMap>
 
+    <resultMap id="TraitMap" type="cn.big.gvk.po.GwasAssociationBean">
+        <id property="gaId" column="ga_id"/>
+        <result property="genotypeId" column="genotype_id"/>
+        <result property="traitId" column="trait_id"/>
+        <result property="modelId" column="model_id"/>
+        <result property="studyId" column="study_id"/>
+        <result property="paperId" column="paper_id"/>
+        <result property="orgId" column="org_id"/>
+        <result property="traitCount" column="trait_count"/>
+        <result property="rval" column="rval"/>
+        <result property="pvalue" column="p_value"/>
+        <result property="gwasCount" column="gwas_count" />
+        <result property="traitName" column="trait_name" />
+        <result property="paperCount" column="paperCount"></result>
+
+    </resultMap>
+
+    <resultMap id="TraitCountMap" type="cn.big.gvk.po.StatisticBBean">
+        <id property="stB" column="st_b"/>
+        <result property="traitId" column="trait_id"/>
+        <result property="pubNum" column="pub_num"/>
+        <result property="stdNum" column="std_num"/>
+        <result property="assNum" column="ass_num" />
+        <result property="subTraitNum" column="sub_trait_num"/>
+
+    </resultMap>
+
     <select id="selectAllStatisticA" resultMap="StatisticMap">
 		select * from statistic_a
 	</select>
 
-    <select id="selectPubStatisicB" resultMap="PublicationMap">
-      select year(pub_year) as yeareach, count(*) as publication_count from publication group by year(pub_year)
+    <select id="selectPubStatisticB" resultMap="PublicationMap">
+      select year(pub_year) as yeareach, count(*) as publication_count from publication group by year(pub_year) order by year(pub_year)
+    </select>
+
+    <select id="selectPubStatisticC" resultMap="TraitMap">
+      SELECT  DISTINCT(a.trait_id), COUNT(DISTINCT(a.paper_id)) as paperCount, b.trait_name from gwas_association a INNER JOIN trait b on a.trait_id=b.trait_id GROUP BY a.trait_id ORDER BY paperCount DESC LIMIT 10
+    </select>
+
+    <select id="selectPubStatisticD" resultMap="TraitCountMap">
+        select * from statistic_b
     </select>
 </mapper>
 
