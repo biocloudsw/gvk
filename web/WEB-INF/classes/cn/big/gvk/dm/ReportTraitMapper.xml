@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.ReportTrait">
+
+	<resultMap id="ReportTraitMap" type="cn.big.gvk.po.TraitBean">
+		<result property="traitId" column="trait_id"/>
+		<result property="reportTraitName" column="trait_name" />
+	</resultMap>
+
+	<select id="selectReportTraitByOrganism" resultMap="ReportTraitMap">
+			select distinct trait_id,trait_name from trait where 1=1
+			<if test="species != null ">
+					and trait_id in (select trait_id from gwas_association where org_id=#{species})
+			</if>
+			order by trait_id
+	</select>
+
+</mapper>

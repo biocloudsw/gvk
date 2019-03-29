@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.big.gvk.dm.Search">
+
+	<resultMap id="SearchItemMap" type="cn.big.gvk.po.search.SearchItemBean">
+		<result property="itemId" column="item_id"/>
+		<result property="itemName" column="item_name" />
+		<result property="itemType" column="item_type" />
+		<result property="itemCount" column="item_count" />
+	</resultMap>
+
+
+	<select id="selectCustomWordBySearch" parameterType="java.util.Map"  resultMap="SearchItemMap">
+			select
+			<choose>
+				<when test="count != null">
+					count(*) as item_count
+				</when>
+				<otherwise>
+					item_id,item_name,item_type
+				</otherwise>
+			</choose>
+			 from (
+			select distinct b.trait_id as item_id,b.trait_name as item_name , 1 as item_type from trait b  inner join  gwas_association  a on a.trait_id=b.trait_id
+			where 1=1
+			<if test="searchParam != null ">
+				and  b.trait_name like  CONCAT('%',#{searchParam},'%')
+			</if>
+			<if test="species != null ">
+				and a.org_id=#{species}
+			</if>
+			<if test="traitlist != null ">
+			  and a.trait_id in
+                <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+			</if>
+            <if test="pval != null ">
+              and a.p_value ${psitu} #{pval}
+            </if>
+			UNION ALL
+			select distinct d.g_id as item_id,d.map_gene_id as item_name, 2 as item_type from gwas_association a inner join genotype_annotate_gene b on a.genotype_id=b.genotype_id inner join gene d
+			on d.g_id=b.g_id
+			where 1=1
+			<if test="searchParam != null ">
+				and d.map_gene_id like CONCAT('%',#{searchParam},'%')  or d.map_gene_symbol like CONCAT('%',#{searchParam},'%')
+			</if>
+			<if test="species != null ">
+				and a.org_id=#{species}
+			</if>
+            <if test="traitlist != null ">
+                and a.trait_id in
+                <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="pval != null ">
+                and a.p_value ${psitu} #{pval}
+            </if>
+			) temp_sort_table
+			order by item_type,item_id
+			<if test=" p1 != null">
+				limit ${p1},${p2}
+			</if>
+
+	</select>
+
+	<select id="selectRangeBySearch" parameterType="java.util.Map"  resultMap="SearchItemMap">
+		select
+		<choose>
+			<when test="count != null">
+				count(*) as item_count
+			</when>
+			<otherwise>
+				item_id,item_type
+			</otherwise>
+		</choose>
+		from (
+		select distinct genotype_id as item_id , 1 as item_type from genotype where 1=1 and var_id is not null
+		<if test="chrom != null ">
+			and chrom=#{chrom}
+		</if>
+		<if test="startpos != null ">
+			and start_pos &gt;= #{startpos}
+		</if>
+		<if test="endpos != null ">
+			and end_pos &lt;=#{endpos}
+		</if>
+
+        <if test="gwas != null ">
+            and genotype_id in ( select genotype_id from gwas_association b where 1=1
+        </if>
+
+        <if test="species != null ">
+            and b.org_id=#{species}
+        </if>
+        <if test="traitlist != null ">
+            and b.trait_id in
+            <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pval != null ">
+            and b.p_value ${psitu} #{pval}
+        </if>
+        <if test="gwasend != null ">
+            )
+        </if>
+
+		UNION ALL
+		select distinct a.g_id as item_id , 2 as item_type  from genotype_annotate_gene a inner join genotype b
+		on a.genotype_id=b.genotype_id where 1=1 and b.var_id is not null
+		<if test="chrom != null ">
+			and b.chrom=#{chrom}
+		</if>
+		<if test="startpos != null ">
+			and b.start_pos &gt;= #{startpos}
+		</if>
+		<if test="endpos != null ">
+			and b.end_pos &lt;=#{endpos}
+		</if>
+        <if test="gwas != null">
+            and b.genotype_id in ( select genotype_id from gwas_association d where 1=1
+        </if>
+
+        <if test="species != null ">
+            and d.org_id=#{species}
+        </if>
+        <if test="traitlist != null ">
+            and d.trait_id in
+            <foreach item="item" index="index" collection="traitlist" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="pval != null ">
+            and d.p_value ${psitu} #{pval}
+        </if>
+        <if test="gwasend != null ">
+            )
+        </if>
+
+
+		) temp_sort_table
+		order by item_type,item_id
+		<if test=" p1 != null">
+			limit ${p1},${p2}
+		</if>
+
+	</select>
+
+</mapper>
